@@ -37,7 +37,7 @@ IoT가 Single Protocol에 의존할 수 없는 이유
 - 가장 오래된 M2M(Machine to Machine) 통신 프로토콜이다.
 - 제한된 네트워크에서 가벼운 M2M 통신을 위해 설계된 pub/sub 메시징 프로토콜이다.
 - MQTT 클라이언트는 (다른 클라이언트가 subscribe하거나 향후 subscribe를 위해 보유할 수 있는) MQTT 브로커에 메시지를 게시한다.
-- 모든 메시지는 각 topic에 맞게 게시된다. -전송 프로토콜로 TCP를 사용하고 보안을 위해 TLS/SSL을 사용합니다. => client와 broker 간의 connection-oriented(URL "https://simhyejin.github.io/2016/07/04/connectionoriented-connectionless/")이다.
+- 모든 메시지는 각 topic에 맞게 게시된다. -전송 프로토콜로 TCP를 사용하고 보안을 위해 TLS/SSL을 사용합니다. => client와 broker 간의 <a href="https://simhyejin.github.io/2016/07/04/connectionoriented-connectionless/">connection-oriented</a> 이다.
 - Using 3-level QoS(Quality of Service) => for reliable delivery of messages.
 - Suitable for large networks of small devices that need to be monitored or controlled from a back-end server on the Internet.
 ```
