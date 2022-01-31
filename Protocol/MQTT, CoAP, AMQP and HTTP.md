@@ -89,4 +89,4 @@ IoT가 Single Protocol에 의존할 수 없는 이유
 - HTTP는 IoT가 아닌 Web을 위해 설계되었기에 최대의 오버헤드 및 메시지 크기를 가진다.
 - CoAP runs on UDP => 연결에 별다른 오버헤드가 따르지 않는다.
 
-![Message size and overhead](./images/Message size and overhead.jpg)
+!(Message size and overhead)(./images/Message size and overhead.jpg)
