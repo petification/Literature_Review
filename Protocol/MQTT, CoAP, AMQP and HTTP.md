@@ -58,4 +58,9 @@ IoT가 Single Protocol에 의존할 수 없는 이유
 
 ## HTTP
 
--
+- 주로 web messaging protocol로 사용된다.
+- HTTP는 request/response RESTful Web architecture를 지원한다.
+- CoAP와 유사하게 URI 방식을 사용하며, 서버에서 URI를 통해 데이터를 제공하면 client는 URI를 통해 데이터를 공급 받는다.
+- Text-based protocol 이다.
+- HTTP는 전송 프로토콜로 TCP를 사용하며, 보안을 위해 TLS/SSL을 사용한다. => client와 server 간의 connection-oriented이다.
+- 별도의 명시적인 QoS를 가지고있지 않으며, 이를 위한 support를 필요로한다.
