@@ -37,7 +37,7 @@ IoT가 Single Protocol에 의존할 수 없는 이유
 - 가장 오래된 M2M(Machine to Machine) 통신 프로토콜이다.
 - 제한된 네트워크에서 가벼운 M2M 통신을 위해 설계된 pub/sub 메시징 프로토콜이다.
 - MQTT 클라이언트는 (다른 클라이언트가 subscribe하거나 향후 subscribe를 위해 보유할 수 있는) MQTT 브로커에 메시지를 게시한다.
-- 모든 메시지는 각 topic에 맞게 게시된다. -전송 프로토콜로 TCP를 사용하고 보안을 위해 TLS/SSL을 사용합니다. => client와 broker 간의 <a href="https://simhyejin.github.io/2016/07/04/connectionoriented-connectionless/">connection-oriented</a> 이다.
+- 모든 메시지는 각 topic에 맞게 게시된다. -전송 프로토콜로 TCP를 사용하고 보안을 위해 TLS/SSL을 사용합니다. => client와 broker 간의 connection-oriented 이다.
 - Using 3-level QoS(Quality of Service) => for reliable delivery of messages.
 - Suitable for large networks of small devices that need to be monitored or controlled from a back-end server on the Internet.
 ```
@@ -81,4 +81,12 @@ IoT가 Single Protocol에 의존할 수 없는 이유
 
 # The Comparison between each Protocol : MQTT, CoAP, AMQP and HTTP
 
-1. Message Size vs Message Overhead
+### 1. Message Size vs Message Overhead
+
+- MQTT, AMQP and HTTP run on TCP => 연결 및 연결종료에 오버헤드가 존재
+- MQTT는 가볍고 메시지당 2바이트의 가장 작은 헤더크기를 가지지만 TCP 연결 요구 사항은 전체 오버헤드를 증가시켜 메시지 크기를 증가시킴.
+- AMQP는 reliability, security, provisioning and interoperability를 보장하기에 오버헤드가 크다.
+- HTTP는 IoT가 아닌 Web을 위해 설계되었기에 최대의 오버헤드 및 메시지 크기를 가진다.
+- CoAP runs on UDP => 연결에 별다른 오버헤드가 따르지 않는다.
+
+![Message size and overhead.jpg](//images/Message size and overhead.jpg)
