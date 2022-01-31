@@ -41,8 +41,11 @@ IoT가 Single Protocol에 의존할 수 없는 이유
 - It is mainly developed to interoperate with HTTP and the RESTful Web through simple proxies.
 - MQTT와 다르게 CoAP 는 topic이 아닌 URI를 사용한다.
 - Publisher는 URI로 data를 publish하고, subscriber는 URI로 표현된 특정 리소스에 subscribe를 한다.
--
+- CoAP는 전송 프로토콜로 UDP를 사용하고, 보안을 위해 DTLS를 사용한다. 따라서 clients와 server는 적은 신뢰도의 connectionless datagram방식을 통해 통신한다.
+- QoS를 지원하기 위해 "confirmable(전송에 대한 ACK받음)" 레벨과 "non-confimable(아무것도 안받음)" 레벨을 사용한다.
 
 ## AMQP
+
+-
 
 ## HTTP
