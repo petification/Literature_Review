@@ -127,31 +127,41 @@ As a flow-based open-source visual programming tool \cite{b8}, Node-RED makes po
 In Petification, the water supplier and feed machine is attached to platform to provide water and food to the pet and scale the weight of the water and food by load cell. In the feed machine, servo motor is attached so that user can control the served amount of food. All the load cells and servo motors are mounted to Raspberry Pi for each device.
 The web-based dashboard is supported to show the remaining amount of water and food, show the water and food consumption, show the device connectivity, and serve the food by button or by time schedule. The user of the Petification gets notification when the water or food is running out of empty.
 
-% ----- Literature Review -----
+% —— Literature Review ——
 \section{Related Literature}
-This chapter will be explained with hardware and platform perspectives respectively. In the hardware part, used devices are compared with them of Petification, and used IoT platform and provided feature will be compared with present research in the platform part.
+% Index paragraph
+This chapter will be explained with hardware and software perspectives respectively. In the hardware part, used devices are compared with them of Petification, and used IoT platform and provided feature will be compared with present research in the software part.
 
 \subsection{Hardware}
-In the previous study conducted by P. N. Vrishanka \textit{et al.} \cite{b11}, an automated pet feeder is proposed. To implement it, an ultrasonic distance sensor and SG90 servo motor were mounted to Arduino Uno R3. An ultrasonic distance sensor is used to determine the remaining food amount by measuring the distance from the entrance of the feed container to the inside of the bowl.
+% Reference 1
+P. N. Vrishanka \textit{et al.} \cite{b11} proposed an automated pet feeder which serve food to the pet according to the remaining amount of food in the food bowl. An ultrasonic distance sensor and SG90 servo motor were mounted to Arduino Uno R3 in this research. An ultrasonic distance sensor is used to determine the remaining food amount by measuring the distance from the entrance of the feed container to the inside of the bowl.
 
+% Comparison
 However, the feed machine of Petification used load cell sensors to determine the remaining food amount, as it is difficult to use ultrasonic waves to measure the amount of feed accurately.
 
-In the previous study conducted by Rogerio Nogueira \textit{et al}, \cite{b12} , Rotary Valve and DC motor were used to provide feed. And in the previous study conducted by Vania \textit{et al}, \cite{b13}, propeller blade and DC motor were used.
+% Reference 2
+Rogerio Nogueira \textit{et al}, \cite{b12}  proposed system that provides food and water to the pet, takes picture of the pet, and provides intelligent interface to the user with the messenger. In this research, rotary valve and DC motor were used to provide the food to the pet.
 
+% Reference 3
+Vania \textit{et al}, \cite{b13}, proposed IoT solution which provides RFID to identify the pet, serve food by schedule, and provides application to user. This research also uses propeller blade and DC motor for remote feeding.
+
+% Comparison
 However, the problem with using a rotary valve or propeller blade is that the feed can’t be provided with the exact weight. This is because the amount of feed to be provided to the pet is determined based on the serving unit contained in one space. Thus, when the feed machine tries to provide a certain weight of feed with the rotary valve or propeller blade, there is always the possibility of providing more than the intended weight, even if the error for load cell is not concerned. The Petification feed machine does not use a rotary valve but uses a gate that can block the feeder container outlet because it has the advantage of being able to adjust the amount of feed to be supplied in more detail than the rotary valve method.
 
 In addition, both \cite{b12} and \cite{b13} uses a DC motor to provide feed through continuous rotation of the rotary valve. However, the feed machine of Petification uses a servo motor because they need more precise control than free continuous rotation.\cite{b14} 
 
-\subsection{Platform}
-  The previous study conducted by Y. Chen \textit{et al.} \cite{b5}
-proposed a pet care IoT system that provides food and water consumption, number of defecation, and defecation duration. It was developed through Arduino IDE and provides features above with numbers and visual statistics in real-time using “Blynk” as an IoT platform.
+\subsection{Software}
+% Reference 4
+Y. Chen \textit{et al.} \cite{b5} proposed a pet care IoT system that provides food and water consumption, number of defecation, and defecation duration. It was developed through Arduino IDE and provides features above with numbers and visual statistics in real-time using “Blynk” as an IoT platform.
 
-The previous study conducted by T. Sangvanloy \textit{et al.} \cite{b4} 
-proposed a pet care IoT solution that visualizes the daily food consumption in real-time and automatically feeds the pet according to the scheduled time. It was also implemented using “Blynk” as an IoT platform.
+% Reference 5
+T. Sangvanloy \textit{et al.} \cite{b4} proposed a pet care IoT solution that visualizes the daily food consumption in real-time and automatically feeds the pet according to the scheduled time. It was also implemented using “Blynk” as an IoT platform.
 
-But, non of the two studies above provide information on device status. Although tracking water and feed consumption is an important feature in pet care IoT solutions, keeping track of IoT devices’ status is also an important feature. Petification provides the status of feed machines and water supply machines, such as device connectivity, error existence, and the amount of feed or water remaining in the device. Moreover, Petification provides an error notification feature that notifies users when the error occurred, such as when water or feed is empty.
-
+% Platform Comparison
 From the used platform perspective, the above two studies commonly used ‘Blynk’ as an IoT platform. However, Petification uses Node-RED instead of ‘Blynk’ to take advantage of visual programming, openly pre-developed flows and nodes, and various notification means.
+
+% Functionality Comparison
+Also, non of the two studies above provide information on device status. Although tracking water and feed consumption is an important feature in pet care IoT solutions, keeping track of IoT device’s status is also an important feature. Petification provides the status of feed machines and water supply machines, such as device connectivity, error existence, and the amount of feed or water remaining in the device. Moreover, Petification provides an error notification feature that notifies users when the error occurred, such as when water or feed is empty.
 
 \section{Methodology}
 \subsection{Overview}
