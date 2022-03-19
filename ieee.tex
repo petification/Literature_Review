@@ -164,6 +164,9 @@ From the used platform perspective, the above two studies commonly used ‘Blynk
 Also, non of the two studies above provide information on device status. Although tracking water and feed consumption is an important feature in pet care IoT solutions, keeping track of IoT device’s status is also an important feature. Petification provides the status of feed machines and water supply machines, such as device connectivity, error existence, and the amount of feed or water remaining in the device. Moreover, Petification provides an error notification feature that notifies users when the error occurred, such as when water or feed is empty.
 
 \section{Methodology}
+% Section Index
+In this chapter, the overview and used technologies are explained. The high-level outline of petification is explained in the overview part, and used technology including sensor, actuator, program, and protocol is explained in the technology part.
+
 \subsection{Overview}
 As MQTT is the main messaging protocol for petification and MQTT uses TCP/ IP protocol stack, each device is connected to the Access Point (AP) through Wi-Fi. Thus, all the messages published from devices are sent to the AP with Wi-Fi, and then they are sent to the Petification platform through the internet. Petification platform processes the messages and sends the processed data to the users in form of a web dashboard page, E-Mail, and WhatsApp messages. On the contrary, users can send requests with the web dashboard to the platform. While some requests require only the platform, the requests to activate the actuator are forwarded to the device with the help of the platform. In summary, users and devices communicate bi-directionally through the platform. The overview for Petification is shown in figure 2.
 
@@ -176,51 +179,36 @@ As MQTT is the main messaging protocol for petification and MQTT uses TCP/ IP pr
 
 \subsection{Used Technology}
 \subsubsection{Hardware}
+% ::Load cell::
 The load cell sensor serves to convert the weight or force acting into an electrical analog signal \cite{b15}. In the present research, three load cells that can weigh up to 5kg with 1g accuracy are used.
-
+% ::HX711 Amplifier::
 All the load cells are mounted to the microcontroller through a load cell amplifier. In Petification, three HX711 modules are used as load cell amplifiers. HX711 converts an analog signal into a digital signal, amplifies a measured value of a low load cell, and then transmits the value to another microcontroller \cite{b16}. 
-
+% ::MG90S Servo Motor::
 The servo motor is a rotary or linear actuator that rotates and pushes a machine \cite{b17} and one MG90S servo motor is used.
-
+% ::Raspberry Pi Microcontroller::
 The role of the microcontroller is orchestrating all the sensors and actuators and communicating with the IoT platform. For the microcontroller, two Raspberry Pi Zero W are used.
 
 \subsubsection{Node-RED}
-Node-RED is a flow-based visual development tool that is easy for developers and non-developers to develop programs. Node-RED is popularly used to connect hardware devices, APIs, and online services \cite{b18}.
-% `Strengths of the Node-RED`
-One of the Node-RED’s operational strengths is that it can run on various environments such as local, Raspberry Pi, Docker, Cloud Instance, and \textit{et al}. \\
-% `Core nodes we use`
-% `1. Network Node - MQTT, HTTP`
-% `2. Exec Node`
-\indent In the Node-RED core package, a lot of nodes are pre-installed by default. ‘HTTP node’ and ‘MQTT node’ are provided to help configure the network. Also, the Node-RED core package provides the ‘exec node’ which helps execute system commands. Being able to execute system commands means that other programming languages can be integrated into the flow. For example, a python code file can be executed with the help of the ‘Exec node’. \\
-\indent Node-red is an open-source project and not only Node-RED itself but also various nodes are being distributed through Node Package Manager (NPM). Thus, users can share their nodes or flows, and a lot of contributed nodes are available in NPM.
-% `Supported nodes that we use`
-% `1. Dashboard - node-red dashboard
-% `2. Database - MySQL`
-% `3. Social - EMail, WhatsApp`
-User interface (UI) can be configured using Node-RED’s ’node-red-dashboard’ package. It also supports appending Cascade Style Sheet (CSS) and JavaScript code to the dashboard, so user-friendly UI is easily configured \cite{b19}. Furthermore, Node-RED has the advantage of allowing users to easily access the database and manipulate data. There are various nodes to access the database, such as ‘node-red-node-MySQL which helps to access the MySQL server. Also, a lot of nodes are distributed to send notifications to users, such as ‘node-red-node-email’ that helps send e-mail and ‘node-red-contrib-whatsapp-cmb’ that helps send WhatsApp messages. \\
-% `Node-RED and IBM`
-\indent Node-RED is made by International Business Machines Corporation (IBM), and IBM plans to increase its contributor base as an open-source for the sustainability of Node-RED. \cite{b20}.
+% ::1. Flow-based visual development tool - fast development::
+Node-RED is a flow-based visual development tool that is easy for developers and non-developers to develop programs \cite{b18}.
+% ::3. IBM-supported open source::
+It is originally developed by International Business Machines Corporation (IBM), and IBM made it as an open-source project in 2013 \cite{b18}. Not only Node-RED itself but also various nodes are being distributed through Node Package Manager (NPM). Thus, users can share their nodes or flows, and a lot of contributed nodes are available in NPM.
+% ::2. Interoperability::
+One of the Node-RED’s operational strengths is that it can run on various environments such as local, Raspberry Pi, Docker, Cloud Instance, and \textit{et al}.
 
 \subsubsection{MQTT}
-MQTT stands for Message Queuing Telemetry Transport and is the oldest Machine to Machine (M2M) protocol for IoT. It is an ISO standard Publishing-Subscribing-based messaging protocol designed for lightweight M2M communication in a limited network. All MQTT messages have their own topics, and MQTT clients can send and receive data by posting messages to MQTT  or subscribing to topics for those messages. TCP is used as a transport protocol, and TLS/SSL can be used for security. This means connection-oriented between Client-Brokers. In the MQTT protocol, three levels of quality of service (QoS) are used: QoS0(), QoS1(), and QoS2(). The MQTT protocol has a small message size and message overhead. In addition, due to low power consumption and resource consumption, it is evaluated as a suitable protocol for use in the IoT field.
-\cite{b21}
-
-\paragraph{MQTT vs Other Protocols(CoAP, AMQP, HTTP)}
-\hfill \break
-Protocols to consider in an IoT platform aside from MQTT that was mentioned earlier include
-CoAP, AMQP, and HTTP. They could be categorized by CoAP which uses UDP as the transport protocol, and MQTT, AMQP, and HTTP that uses TCP. From this project’s perspective, CoAP uses UDP as the transport protocol. The size of the message and the overhead is small which is an advantage, however, as the UDP’s characteristic the packet delivery is not guaranteed. Furthermore, CoAP is specialized to devices that support UDP and UDP analog so it is not suitable to support all devices. Next, AMQP uses TCP as the transport protocol. Compared to MQTT, reliability, security, provisioning, and interoperability is higher. However, because of that the message size and the overhead is a lot bigger compared to MQTT and the power and resource consumed by the device are large. Finally, HTTP is a protocol for the web, thus it could result in delays between the device and the platform’s data flow. Additionally, the power and resource consumed by the device are similar to AMQP which is a downfall.
-
-Therefore, MQTT utilized TCP as the transport protocol to guarantee the packet delivery and has an appropriate amount of message size and overhead. Furthermore, the consumption of power and resource is minor which is an advantage since the time of using the device is important.
-This concluded that the MQTT protocol is suitable for the IoT platform project composing the
-message broker. The message broker uses Mosquitto which is the MQTT protocol implemented.\cite{b21} 
-
-\subsubsection{Mosquitto}
-Mosquito is an open-source message broker implementing MQTT protocol versions 5.0, 3.1.1, and 3.1 and is provided by Eclipse. It is also lightweight and suitable for use in all devices, from low-power single-board computers to full servers.\cite{b22}
-
-Several programs are implementing MQTT, such as EMQ, HiveMQ, Mosquito, and VerneMQ. A study comparing each of the programs suggested that in situations where availability is not significant, using Single Broker and Persistence Setting is a simpler way to configure Message Broker than using clustered Broker \cite{b23}. In addition, in the context of using Persistence Setting in Single Broker, Mosquitto had close to 0 percent probability of message loss and message order mixing, and the probability of receiving duplicate messages was significantly lower than other programs \cite{b23}. Thus, this research uses Mosquitto with persistency setting as a single message broker.
+MQTT stands for Message Queuing Telemetry Transport. It is an OASIS standard protocol, and provides light-weight, publish/subscribe messaging transport for IoT \cite{b9}.
+% ::Light-weight::
+One characteristic of MQTT is light-weight. The MQTT protocol has a small message size and message overhead, and consumes less power and resources than Advance Message Queuing Protocol (AMQP) and Hypertext Transfer Protocol (HTTP) \cite{b21}. With its light-weight characteristic, it is suitable for communication in IoT fields where network bandwidth is at a premium \cite{b27}.
+% ::Reliability::
+MQTT uses TCP as transport layer protocol and TLS/SSL can be used for security. It makes MQTT more reliable than Constrained Application Protocol (CoAP) which uses UDP as the transport protocol \cite{b21}.
+% ::Pub/sub::
+All MQTT messages have their own topics, and MQTT clients can send data for certain topic by publishing messages to MQTT broker or receive data by subscribing to topics for those messages.
+% ::Mosquitto::
+In this research, Eclipse Mosquitto is used as a MQTT Message Broker. Eclipse Mosquitto is an open-source message broker implementing MQTT protocol versions 5.0, 3.1.1, and 3.1\cite{b22}. 
 
 \subsubsection{MySQL}
-MySQL is a fast, flexible, and easy-to-use database with RDBMS (relational database management system). The combination of MySQL's secure processing and reliable software provides effective transactions for large projects, so it is flexible with open sources. MySQL is also excellent in terms of data security because it is evaluated as having the safest and most reliable database management system \cite{b24}. In addition, MySQL is considered a suitable database to manage effective data flows because it has good compatibility with Node-RED \cite{b24}.
+MySQL is a fast, flexible, and easy-to-use database with RDBMS (relational database management system). The combination of MySQL’s secure processing and reliable software provides effective transactions for large projects, so it is flexible with open sources. MySQL is also excellent in terms of data security because it is evaluated as having the safest and most reliable database management system \cite{b24}. In addition, MySQL is considered a suitable database to manage effective data flows because it has good compatibility with Node-RED \cite{b24}.
 
 \section{Hardware Design}
 
@@ -619,7 +607,7 @@ Node-RED [Online]. Available https://nodered.org/blog/2020/10/13/future-plans
 \bibitem{b21}
 N. Naik, "Choice of effective messaging protocols for IoT systems: MQTT, CoAP, AMQP and HTTP," 2017 IEEE International Systems Engineering Symposium (ISSE), Vienna, Austria, Oct. 11-13, 2017.
 \bibitem{b22}
-Eclipse Mosquitto [Online]. Available https://mosquitto.org/
+Eclipse Mosquitto [Online]. Available: https://mosquitto.org/
 \bibitem{b23}
 S. Gruener, H. Koziolek and J. Rückert, "Towards Resilient IoT Messaging: An Experience Report Analyzing MQTT Brokers," 2021 IEEE 18th International Conference on Software Architecture (ICSA), Stuttgart, Germany, Mar. 22-26, 2021.
 \bibitem{b24}
@@ -628,6 +616,8 @@ Datamation. [Online]. Available: https://www.datamation.com/storage/8-major-adva
 A. Tamboli, “Build Your Own IoT Platform,” in \textit{Apress}, 1st ed, 2019
 \bibitem{b26}
 N. O'Leary. "Version 2.1 released." Node-RED. https://nodered.org/blog/2021/10/21/version-2-1-released\#dynamic-mqtt-nodes (accessed Fab. 16, 2022).
+\bibitem{b27}
+OASIS Open [Online]. Available: https://www.oasis-open.org/committees/tc\_home.php?wg\_abbrev=mqtt
 
 \end{thebibliography}
 \vspace{12pt}
