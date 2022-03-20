@@ -102,7 +102,7 @@ IoT platform, Node-RED, MQTT, Smart pet care service
 As the number of households living alone increases and the culture of raising pets spreads compared to the past, the number of households raising pets is increasing. This trend is shown in the growth of the pet industry. The growth of the pet industry is one of the indicators of this trend. The profit of the pet industry more than doubles every year over 10 years, from /$48.4 billion in 2010 to /$109.6 billion in 2020 \cite{b1}. Figure 1 shows that households owning a dog consists the largest portion, and the number of families owning dogs has increased from 46.3 million in 2011 to 69 million in 2021.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics{fig 1.png}}
+\centerline{\includegraphics{./images/fig 1.png}}
 \caption{Number of U.S. Households That Own a Pet, by Type of Animal
 }
 \label{fig}
@@ -167,7 +167,7 @@ As MQTT is the main messaging protocol for petification and MQTT uses TCP/ IP pr
 
 % `Overview.png`
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{Overview.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/Overview.png}}
 \caption{Petification overview.}
 \label{fig}
 \end{figure}
@@ -226,7 +226,7 @@ MySQL is a fast, flexible, and easy-to-use database with RDBMS (relational datab
 Feed Machine is one of the devices attached to the proposed platform. The Feed Machine has 2 main functionalities: Serving food to the pet and Reporting the weight of the food bowl and container to the platform. To serve food to the pet, the servo motor is mounted to open and close the food gate. As in Figure 3, the servo motor gives food in an open/close type. Food serving is done with the help of gravity; After the food gate is opened, food rolls down the slope, and thus food is served. By closing the food gate Feed Machine stops the serving of the food. To measure the weight of the food bowl and container, two load cell is mounted under each of them. Like in Figure 4, each load cell is connected with an HX711 Amplifier to convert the analog signal to a digital signal. Also, as in Figure 5., Load cell sensors are installed between wooden boards to measure the weight. Additionally, in Figure 5, a food container carries food through a slide into a food bowl. All the sensors and a servo motor are attached to Raspberry Pi Zero W.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{servo_gate.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/servo_gate.png}}
 \caption{Block diagram for Feed machine and Water supplier.}
 \label{fig}
 \end{figure}
@@ -237,13 +237,13 @@ The water supplier has functionality that reports the total weight of the water 
 Similar to a feed machine, to measure the weight of water in a water supplier a load cell is mounted under the water supplier. In addition, like in Figure 4., the HX711 amplifier is used to convert analog signals into digital signals. As in Figure 5., like a feed machine load cell sensors are installed between wooden boards to measure the weight. Both types of sensor and RaspberryPi are the same as the feed machine. 
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{hardwareBlock.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/hardwareBlock.png}}
 \caption{Block diagram for Feed machine and Water supplier.}
 \label{fig}
 \end{figure}
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{Feed Machine & Water Supplier.jpg}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/Feed Machine & Water Supplier.jpg}}
 \caption{Feed Machine and Water Supplier CAD Image}
 \label{fig}
 \end{figure}
@@ -254,7 +254,7 @@ Similar to a feed machine, to measure the weight of water in a water supplier a 
 
 % `deviceSetup.png`
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{deviceSetup.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/deviceSetup.png}}
 \caption{Activity Diagram for Device Setup.}
 \label{fig}
 \end{figure}
@@ -280,7 +280,7 @@ weight could be calculated through the measured force measured by the load cell.
 
 % `publishScaleError.png`
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{publishScaleError.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/publishScaleError.png}}
 \caption{Activity Diagram for Publishing Scale and Error Detection}
 \label{fig}
 \end{figure}
@@ -290,7 +290,7 @@ In Figure 7, when weight data begins to be collected after scaling in Device, tw
 
 % `actionMessageReceived.png`
 \begin{figure}[htbp!]
-\centerline{\includegraphics[width=0.5\textwidth]{actionMessageReceived.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/actionMessageReceived.png}}
 \caption{Activity Diagram for Automatic Feeding.}
 \label{fig} 
 \end{figure}
@@ -311,7 +311,7 @@ shows the block diagram of Petification and interaction between devices and plat
 
 % `Blocks.png`
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{Blocks.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/Blocks.png}}
 \caption{Platform block diagram and interaction between devices.}
 \label{fig}
 \end{figure}
@@ -347,7 +347,7 @@ shows the block diagram of Petification and interaction between devices and plat
 \subsection{Activity Diagram for Software Design}
 \subsubsection{Receiving Scale Message}
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{scaleMessageReceived.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/scaleMessageReceived.png}}
 \caption{Activity Diagram for Receiving scale message.}
 \label{fig}
 \end{figure}
@@ -374,7 +374,7 @@ The basic idea for calculating consumption is comparing current and previous sca
 
 \subsubsection{Publishing action message}
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{publishActionMessage.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/publishActionMessage.png}}
 \caption{Activity Diagram for Publishing Action Message.}
 \label{fig}
 \end{figure}
@@ -383,7 +383,7 @@ Activity diagram for Publishing action message is shown in figure 11. Publishing
 \hfill \break
 \subsubsection{Receiving Error Message}
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{errorMessageReceived.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/errorMessageReceived.png}}
 \caption{Activity Diagram for Receiving Error Message.}
 \label{fig}
 \end{figure}
@@ -398,25 +398,25 @@ Activity diagram for Receiving error message is shown in figure 12. Similarly, w
 Each device was configured to automatically execute Node-Red during Raspberry Pi booting using the Process Manager 2 (PM2) library of NPM. ‘Inject node’ automatically starts all the device setup flow right after Node-RED is executed. The first step for device setup is loading the ‘settings.json’ file to connect to the MQTT broker. It is done by ‘Read file node’, ‘Parse JSON node’. When MQTT client ID is not saved to the ‘settings.json’ file, flow for getting client ID from platform server and saving it is executed with ‘HTTP Request node’ and ‘Write file node’. After all the settings are loaded, MQTT dynamic connection and subscription take place, which is introduced for new feature of release v2.1.0 \cite{b26}. The implemented Node-RED flow for device setup is shown in figure 13.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{deviceCommonNodeRED.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/deviceCommonNodeRED.png}}
 \caption{Node-RED flow for device setup.}
 \label{fig}
 \end{figure}
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{feed machine circuit.jpg}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/feed machine circuit.jpg}}
 \caption{Feed machine circuit diagram.}
 \label{fig}
 \end{figure}
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{water supplier circuit.jpg}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/water supplier circuit.jpg}}
 \caption{water supplier circuit diagram.}
 \label{fig}
 \end{figure}
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{Feed Machine.jpg}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/Feed Machine.jpg}}
 \caption{Feed machine device.}
 \label{fig}
 \end{figure}
@@ -442,7 +442,7 @@ During the loop, when the bowl weight becomes bigger than the user’s input, th
 the servo motor closes the door and ends feeding.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{Water Supplier.jpg}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/Water Supplier.jpg}}
 \caption{Water supplier device.}
 \label{fig}
 \end{figure}
@@ -454,7 +454,7 @@ weight is the same as the feed machine. The measured weight is published as ../s
 of topic, and it is provided to the client who has subscribed to that specific topic.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{Water Supplier Error Detection.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/Water Supplier Error Detection.png}}
 \caption{Water Supplier Error Detection Flow.}
 \label{fig}
 \end{figure}
@@ -468,7 +468,7 @@ the platform server, and send a message to the user.
 The platform for Petification uses cloud instances for deployment. On the cloud instance, Mosquitto, MySQL, and Node-RED are installed and firewall, DNS, and certificate for TLS/SSL communication are configured for networking. In the Node-RED, 7 blocks are implemented as 7 flows. The screenshot for implemented Node-RED flow is shown in Figure 19.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{platformImpl.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/platformImpl.png}}
 \caption{Screenshot for Node-RED flow of platform.}
 \label{fig}
 \end{figure}
@@ -484,7 +484,7 @@ In the Feed Machine tab, Device Information widget, Feed Machine Statistics widg
 shows the screenshot of implemented Feed Machine tab.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{feed_machine_ui.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/feed_machine_ui.png}}
 \caption{Screenshot for Feed Machine tab.}
 \label{fig}
 \end{figure}
@@ -496,7 +496,7 @@ Similar to the Feed Machine tab, the Water Supplier tab provides two widgets: De
 shows the screenshot of implemented Water Supplier tab.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{water_supplier_ui.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/water_supplier_ui.png}}
 \caption{Screenshot for Water Supplier tab.}
 \label{fig}
 \end{figure}
@@ -508,7 +508,7 @@ The main purpose of the User Settings tab is to manage user information and the 
 shows the screenshot of the implemented User Settings tab.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{user_settings_ui.png}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/user_settings_ui.png}}
 \caption{Screenshot for User Settings tab.}
 \label{fig}
 \end{figure}
@@ -522,7 +522,7 @@ Calibration must be performed initially to use the load cell.
 In this study, the weight of 500ml bottled water was fixed at 500g for calibration. Thereafter, a total of 8 tests were performed using a load cell sensor in which calibration was completed, and the weight measurement results for 500, 1000, 1500, and 2000 (g) were confirmed.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{Calibration_sheet.jpg}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/Calibration_sheet.jpg}}
 \caption{Screenshot for User Settings tab.}
 \label{fig}
 \end{figure}
@@ -532,7 +532,7 @@ It was confirmed that the average accuracy was 99.8\%, which resulted in high ac
 \subsection{Scheduled / Manual Feeding Testing}
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{Feeding_sheet.jpg}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/Feeding_sheet.jpg}}
 \caption{Screenshot for User Settings tab.}
 \label{fig}
 \end{figure}
