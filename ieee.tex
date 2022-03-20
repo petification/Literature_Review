@@ -242,35 +242,36 @@ Feed Machine is one of the devices attached to the proposed platform. The Feed M
 
 % —— SOFTWARE DESIGN ——
 \section{Software Design}
-
+\subsection{Software Design for Devices}
 % ::1. Publishing Scale and Error Detection::
+\subsubsection{Publishing Scale and Error Detection}
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/publishScaleError.png}}
 \caption{Activity Diagram for Publishing Scale and Error Detection}
 \label{fig}
 \end{figure}
 
-\subsection{Publishing Scale and Error Detection}
 In Figure 7, when weight data begins to be collected after scaling in Device, two weight values are collected. If two do not gather, repeat the scaling process to collect two values and process them at once. Afterward, a large value is selected from the two scaled data, and if the scale value is large compared to the threshold, the scaled weight is published, and if not, an error-topic message is published.
 
 % ::2. Automatic feeding::
+\subsubsection{Automatic Feeding}
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/actionMessageReceived.png}}
 \caption{Activity Diagram for Automatic Feeding.}
 \label{fig} 
 \end{figure}
 
-\subsection{Automatic Feeding}
 In Figure 8, the device subscribes to MQTT messages for Action-type topics. Accordingly, the device can receive an Action-type message, and if it receives a message, it initializes the index to 0 using a loop statement, opens the food gate, and feeds. Weight scaling continues and repeats while the current weight is less than the weight input by the user. If the current weight is greater than the user input value, close the food gate. The max iteration count is 500, and during that loop, the current weight is less than the input weight, and the food gate is automatically closed when the iteration ends.
 
+\subsection{Software Design for Platform}
 % ::3. Receiving Scale Message::
+\subsubsection{Receiving Scale Message}
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/scaleMessageReceived.png}}
 \caption{Activity Diagram for Receiving scale message.}
 \label{fig}
 \end{figure}
 
-\subsection{Receiving Scale Message}
 Activity Diagram for Receiving scale message is shown in figure 10. When a scale-type message is received to the platform, MQTT Manager parses the message and toss it to the Rule Engine. After that, Rule Engine activates 3 rules, and these rules proceeds in parallel: update device status, update remaining amount and update consumption. For activating update device status, Device Manager block updates the device’s status and toss the changed status to the Dashboard block only if the status of the device is changed. For Updating remaining amount, the scale-type message is stored in the Time-series Data table by the Time-series Manager block. After storing the message, the payload of the message is tossed to the Dashboard block to update the remaining amount widget.
 Lastly, for updating consumption, the platform checks the consumption cache firstly. When the consumption cache is empty, the consumption array is loaded to the cache, and when it’s not, consumption is calculated and appended to the consumption array of the cache. To load cache, Dashboard request all the records that are stored after midnight of the day for the topic of the received message. The consumption array is prepared by calculating all of the consumptions for that record. After the consumption cache is updated, Dashboard block updates the consumption widget based on the prepared consumption cache.
 The basic idea for calculating consumption is comparing current and previous scales. When a pet consumes food or water, the scale for that will be decreased. Thus, consumption can be derived by accumulating each decreased amount. The pseudo-code for calculating consumption is shown in algorithm 1. The initial value for the decrease amount is set to 0, and the decrease amount is updated to the difference between the previous and current scale only when the previous scale is bigger than the current scale. By adding the decreased amount to the previous consumption, current consumption can be derived.
@@ -292,23 +293,23 @@ The basic idea for calculating consumption is comparing current and previous sca
 \end{algorithm}
 
 % ::4. Publishing action message::
+\subsubsection{Publishing action message}
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/publishActionMessage.png}}
 \caption{Activity Diagram for Publishing Action Message.}
 \label{fig}
 \end{figure}
 
-\subsection{Publishing action message}
 Activity diagram for Publishing action message is shown in figure 11. Publishing action message has two entry points: When the serve button is pressed by the user, and when Node-RED flow is deployed. When the serve button is pressed by the user, the event is tossed to the Device Manager block, and publish an action-type message with the serving amount is stored to message payload. The second entry point is to publish action-type messages according to schedule. After Node-RED flow is deployed, the Schedule Engine selects all the schedules where the schedule’s execution time matches the current time. And then, Schedule Manager publishes all the action-type messages that are stored in schedule with the help of Device Manager. Finally, after all the action-type messages are published, the Schedule Engine waits for another minute and repeats selecting the scheduled procedure.
 
 % ::5. Receiving Error Message::
+\subsubsection{Receiving Error Message}
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/errorMessageReceived.png}}
 \caption{Activity Diagram for Receiving Error Message.}
 \label{fig}
 \end{figure}
 
-\subsection{Receiving Error Message}
 Activity diagram for Receiving error message is shown in figure 12. Similarly, with the receiving scale message, the error-type message is parsed in the MQTT Manager block and tossed to the Rule Engine block when the platform receives it. After that, the Rule Engine block activates two rules in parallel: Update device status, Notify error. To update the status of the device, the Rule Engine block sends a signal to the Device Manager block. Device Manager block updates the status of the device to error and sends the signal to the Dashboard block to update the device status widget only if the status of the device is changed. To notify the error to the user, the Rule Engine block sends a signal to the Device Manager block to check the status of the device. As sending the notification message is done only if the status of the device equals ‘connected’. Device Manager block ignores errors when the status of the device is not ‘connected’. After checking the device status, the Device Manager sends a signal to the User Manager block to check the user setting for notification. In case of the notification being set to 0, the User Manager block ignores the error as well. When notification is set to 1, User Manager sends the signal to the Rule Engine block, with user email and WhatsApp account setting. Finally, the Rule Engine block sends email and WhatsApp messages based on the user notification information.
 
 % —— IMPLEMENTATION ——
@@ -395,24 +396,28 @@ The platform for Petification uses cloud instances for deployment. On the cloud 
 % ::—— Dashboard Implementation ——::
 \subsection{Dashboard}
 Petification’s dashboard was implemented using ‘node-red-dashboard’, which provides a set of nodes to make a live data dashboard \cite{b19}.
-The dashboard consists of three tabs: Feed Machine tab, Water Supplier tab, and User Settings tab. \\
+The dashboard consists of three tabs: Feed Machine tab, Water Supplier tab, and User Settings tab.
 
+% ::Feed Machine tab::
 \subsubsection{Feed Machine tab}
-In the Feed Machine tab, Device Information widget, Feed Machine Statistics widget, and Serve Food widget are provided. As all the functionalities this tab provides are device-specific, selecting a device is included in the Device Information widget. Thus, all the devices which the user has and the device type is water supplier are inquired from the database, and they are displayed as a dropdown. Also, the status for the selected device is provided in the text and LED-shaped icon. The color of the LED-shaped icon changes to green when the device is connected, red for disconnected status, and yellow for error status. In the Feed Machine Statistics widget, the Remaining amount of food and container and food consumption is provided. The remaining amount of food bowl and container is displayed as gauge and food consumption is displayed as a line graph. In the Serve Food widget, the user input interface is provided to publish feed serving action by button. The serve Food widget also provides the interface for automatic food feeding (scheduled feeding). Users can see all the feeding schedules in the table format, add a new schedule by user input interface, and delete the existing schedule by clicking the row of the table. Figure 20
-% `feed_machine_ui.png`%
-shows the screenshot of implemented Feed Machine tab.
+In the Feed Machine tab, Device Information widget, Feed Machine Statistics widget, and Serve Food widget are provided. As all the functionalities this tab provides are device-specific, selecting a device is included in the Device Information widget and is displayed as a dropdown.
+% ::Device connectivity::
+Also, the status for the selected device is provided in the text and LED-shaped icon. The color of the LED-shaped icon changes to green when the device is connected, red for disconnected status, and yellow for error status.
+
+% ::Remaining of the food::
+In the Feed Machine Statistics widget, the Remaining amount of food and container and food consumption is provided. The remaining amount of food bowl and container is displayed as gauge and food consumption is displayed as a line graph.
+% ::Serve food by button or schedule::
+In the Serve Food widget, the user input interface is provided to publish feed serving action by button. The serve Food widget also provides the interface for automatic food feeding (scheduled feeding). Users can see all the feeding schedules in the table format, add a new schedule by user input interface, and delete the existing schedule by clicking the row of the table. Figure 20 shows the screenshot of implemented Feed Machine tab.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/feed_machine_ui.png}}
 \caption{Screenshot for Feed Machine tab.}
 \label{fig}
 \end{figure}
-% `This figure should be replaced with real device selected screen shot.`
 
+% ::Water Supplier tab::
 \subsubsection{Water Supplier tab}
-Similar to the Feed Machine tab, the Water Supplier tab provides two widgets: Device Information widget and Water Supplier Statistics widget. The mechanism for each widget is identical to the Feed Machine tab. Figure 21
-% `water_supplier_ui.png`
-shows the screenshot of implemented Water Supplier tab.
+Similar to the Feed Machine tab, the Water Supplier tab provides two widgets: Device Information widget and Water Supplier Statistics widget. The mechanism for each widget is identical to the Feed Machine tab. Figure 21 shows the screenshot of implemented Water Supplier tab.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/water_supplier_ui.png}}
@@ -420,11 +425,15 @@ shows the screenshot of implemented Water Supplier tab.
 \label{fig}
 \end{figure}
 
+% ::User Settings tab::
 \subsubsection{User Settings tab}
-The main purpose of the User Settings tab is to manage user information and the settings. This tab provides five widgets: User Information widget, Timezone settings widget, Notification settings widget, E-Mail address settings widget, and WhatsApp settings widget. Handling user information is the main functionality of the User Information widget. User information is defined with two values: token and username. Each user account has a unique token and username, and the token is to authorize the user when handling the HTTP requests. For username, it is used when the MQTT Broker block authenticates the user. Thus, for users to use all the features petification provides, the user must be registered to petification with a valid token and username. In the User Information widget, the user can see the token and username, and by typing the token to the user input interface, the user can change the user account.
-\indent To support global users, the Timezone settings widget is included in the tab. As all the times that platform uses and database stores use Coordinated Universal Time (UTC) timezone, converting the time of the user to the UTC is necessary. Notification settings widget, E-Mail address settings widget, and WhatsApp settings widget are to control error notification. Users can turn notifications on and off with the Notification settings widget and decide which accounts receive email and WhatsApp messages. Figure 22
-% `user_settings_ui.png`
-shows the screenshot of the implemented User Settings tab.
+The User Settings tab provides five widgets: User Information widget, Timezone settings widget, Notification settings widget, E-Mail address settings widget, and WhatsApp settings widget. 
+% ::Sign in by token::
+In the User Information widget, users can sign in to the system by entering the token, which is an identifier for the user. After sign in, user can see the token and username for the current user.
+% ::Set timezone::
+To support global users, the Timezone settings widget is included in the tab. As all the times that platform uses and database stores use Coordinated Universal Time (UTC) timezone, converting the time of the user to the UTC is necessary.
+% ::Notification option::
+Notification settings widget, E-Mail address settings widget, and WhatsApp settings widget are to control error notification. Users can turn notifications on and off with the Notification settings widget and decide which accounts receive email and WhatsApp messages. Figure 22 shows the screenshot of the implemented User Settings tab.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/user_settings_ui.png}}
@@ -432,13 +441,13 @@ shows the screenshot of the implemented User Settings tab.
 \label{fig}
 \end{figure}
 
-% ----- EXPERIMENT & TESTING -----
+% ::—— EXPERIMENT & TESTING ——::
 \section{Experiment and Testing}
-Testing is conducted based on the results of the implementation of the Petification IoT Platform. Testing is conducted only on quantitatively verifiable results, and a total of two cases are covered: accuracy testing of load cell weight sensors that have undergone calibration and scheduled/Manual Feeding testing. The results of the testing are conducted in an integrated connection environment including a Petification IoT platform that processes logic, a device that plays the role of sensing with an actuator, and a dashboard to check the results.
+Testing is conducted based on the results of the implementation of the Petification IoT Platform. Testing is conducted only on quantitatively verifiable results, and a total of two cases are covered: accuracy testing of the weight measurement and that of the automatic feeding.
 
-\subsection{Calibration Testing}
-Calibration must be performed initially to use the load cell. 
-In this study, the weight of 500ml bottled water was fixed at 500g for calibration. Thereafter, a total of 8 tests were performed using a load cell sensor in which calibration was completed, and the weight measurement results for 500, 1000, 1500, and 2000 (g) were confirmed.
+% ::Weight measurement testing::
+\subsection{Weight measurement testing}
+In this test, a total of 8 tests were performed using a load cell sensor in which calibration was completed, and actual weight is compared with the measured weight in each test.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/Calibration_sheet.jpg}}
@@ -448,7 +457,9 @@ In this study, the weight of 500ml bottled water was fixed at 500g for calibrati
 
 It was confirmed that the average accuracy was 99.8\%, which resulted in high accuracy. Through this, it can be confirmed that the weight measurement error by the sensor hardly occurs as the result of subsequent testing.
 
-\subsection{Scheduled / Manual Feeding Testing}
+% ::Automatic feeding testing::
+\subsection{Automatic feeding testing}
+In this test, a total of 10 tests were performed to figure out the automatic feeding feature works as expected. The desired serving amount is compared with the actual serving amount in each test.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/Feeding_sheet.jpg}}
@@ -456,42 +467,19 @@ It was confirmed that the average accuracy was 99.8\%, which resulted in high ac
 \label{fig}
 \end{figure}
 
-Testing was conducted to see if the operation and result of the scheduled feeding and direct input feeding set by the user were well-reflected.
-For the weight values set in User input and Scheduled Feeding, the difference error from the weight value after feeding was tested.
-As a result of the measurement, it was confirmed that 40\% of the highest error was found, and 1.5\% of the lowest error was found.
-The reason for the error is that the amount of feed cannot be adjusted when feeding the device, which can be seen as a limitation of the device. If the amount of feed in the device can be supplemented, good results can be expected.
+As a result of the measurement, it was confirmed that 40\% of the highest error was found, and 1.5\% of the lowest error was found. The reason for the error is that the food is often stuck in front of the food gate and the food serving speed is too fast for the load cell to detect. It is clearly a limitation for the feed machine and can be solved if the design is modified correctly.
 
-As a result of the testing, no functional errors occurred.
-However, it is thought that it is necessary to supplement the adjustment of feed volume in the device of the Schedule / Manual Feeding Test, which is planned to be improved through a future plan.
-
-% ----- CONCLUSION -----
+% ::—— CONCLUSION ——::
 \section{Conclusion}
-This research paper is about the design and implementation of pet care IoT solutions via IoT
-devices. For pet caring, IoT devices for feeding and providing water are implemented. For an
-effective connection between the device and the user, the platform uses an MQTT Message
-broker to receive data from the device, a database to store data, and Node-RED to execute and
-visualize logic and data. The user interface was designed using Node-RED-dashboard and
-WhatsApp was used to send notifications to the users via SNS to provide useful information and
-services such as the remaining measurement, consumption, automatic/manual feeding, and
-notification. To test the ability and the flow of the platform, we limited the device to feeding and water
-supplying, however, users can use Node-RED to easily create a flow and add their own devices
-to the platform. Furthermore, the user can design the database as they want since they’ve got
-direct access to the database and create flows freely using Node Package Manager(NPM).
-This research implemented a servo motor to provide food from the container to the bowl on the
-feed machine. This resulted in limitations to control the amount of food being provided which led
-to an error in the result value. A future recommendation to this research is to redesign the
-device to weigh the food amount to provide just the amount that the user wants to fix the
-problem rather than just using the servo motor to open and close the container door to provide
-food. Through this research, we were able to show that the pet owners could utilize the
-Node-RED-based platform that could collect data and create a visualization of the flow. 
+In the present research, pet-care IoT solution named ‘Petification’ is proposed to take care of user’s pet when they are not at home. The water supplier is supported in the petification to supply water to the pet and report the current amount of the remaining water. The feed machine is also supported to serve certain amount of food to the pet and report the current amount of the remaining food. The IoT platform for the petification is implemented using Node-RED to take advantage of open-source and flow-based visual programming. Also, the message flow for the petification is controlled with Eclipse Mosquitto, which is open-source implementation of the MQTT Protocol. Users for this solution can check the water and food consumption of the pet and serve the food to the pet on the web based dashboard. The dashboard of the petification also provides device connectivity and amount of remaining food and water to the user. When the water or food for each device is empty, the user can get notifications for it.
 
-The fact that this research encourages the users to easily design the platform’s services, the research is
-not limited to the original platform’s ability. We look forward to a variety of IoT platform research
-not just on pet care services.
+% ::Limitations and future plans::
+While all other functionalities are working correctly, the accuracy of serving exact amount food to the pet is relatively low. The low accuracy is caused by design of the food gate and sensitivity of the load cell. Thus, the future plan can be enhancing the design of the food gate and the sensitivity and stability of the load cell to serve the exact amount of food. Also, attaching another type of device such as device for taking picture of the pet can be the possible improvements for petification.
 
-
-\section{Acknowledge}
-The authors would like to appreciate the support of Chungnam National University, Software-oriented university council, Purdue University, and the Institute for Information \& communication Technology Planning \& evaluation(IITP). Especially, the authors of this study are grateful to Professor Minsun Lee of Chungnam National University, Professor Eric and Tony of Purdue University, and Assistant Minji Lee for helping us participate in the project.
+% ::—— ACKNOWLEDGEMENT ——::
+\section{Acknowledgement}
+“This research was supported by the MSIT(Ministry of Science and ICT), Korea, under the National Program for Excellence in SW) supervised by the IITP(Institute of Information \& communications Technology Planing \& Evaluation) in 2021”(2021-0-01435)
+The authors of this study are grateful to Professor Minsun Lee of Chungnam National University, Professor Eric T. Matson and Professor Anthony H. Smith of Purdue University, and Teaching Assistant Minji Lee for helping us participate in the project.
 
 \begin{thebibliography}{00}
 \bibitem{b1} 
