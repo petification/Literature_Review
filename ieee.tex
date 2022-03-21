@@ -242,39 +242,29 @@ Feed Machine is one of the devices attached to the proposed platform. The Feed M
 
 % —— SOFTWARE DESIGN ——
 \section{Software Design}
-\subsection{Software Design for Devices}
-% ::1. Publishing Scale and Error Detection::
-\subsubsection{Publishing Scale and Error Detection}
+\subsection{User to device communication}
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/publishScaleError.png}}
-\caption{Activity Diagram for Publishing Scale and Error Detection}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/user2device.png}}
+\caption{Activity diagram for user to device communication}
 \label{fig}
 \end{figure}
+% ::Publish action message::
+As shown in figure 7, serving certain amount of the food is done in user to device communication. When the Node-RED flow of the platform is deployed or when user adds a schedule to the database, the platform inquires the schedules which is supposed to be activated on current time from the database. The food serving messages are published only when corresponding schedules are found in the database. When the schedules are not found, the platform waits 1 minute and do the same job again. The food serving message is also published when user manually request to serve the food.
 
-In Figure 7, when weight data begins to be collected after scaling in Device, two weight values are collected. If two do not gather, repeat the scaling process to collect two values and process them at once. Afterward, a large value is selected from the two scaled data, and if the scale value is large compared to the threshold, the scaled weight is published, and if not, an error-topic message is published.
+% ::Serve the food::
+As the feed machine is a subscriber for the food serving message, the food serving message is sent to the feed machine. When the feed machine receives the food serving message, it opens the food gate to serve the food. And the feed machine repeatedly measures the weight of the food bowl. The food gate of the feed machine is closed when measured weight is above the desired weight or when the device measures the weight over 500 times. After the food gate of the feed machine is closed, the platform inquires another schedule for current time from the database repeatedly.
 
-% ::2. Automatic feeding::
-\subsubsection{Automatic Feeding}
+\subsection{Device to user communication}
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/actionMessageReceived.png}}
-\caption{Activity Diagram for Automatic Feeding.}
-\label{fig} 
-\end{figure}
-
-In Figure 8, the device subscribes to MQTT messages for Action-type topics. Accordingly, the device can receive an Action-type message, and if it receives a message, it initializes the index to 0 using a loop statement, opens the food gate, and feeds. Weight scaling continues and repeats while the current weight is less than the weight input by the user. If the current weight is greater than the user input value, close the food gate. The max iteration count is 500, and during that loop, the current weight is less than the input weight, and the food gate is automatically closed when the iteration ends.
-
-\subsection{Software Design for Platform}
-% ::3. Receiving Scale Message::
-\subsubsection{Receiving Scale Message}
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/scaleMessageReceived.png}}
-\caption{Activity Diagram for Receiving scale message.}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/device2user.png}}
+\caption{Activity diagram for device to user communication}
 \label{fig}
 \end{figure}
+% ::Publish scale message::
+The flow shown in figure 8 is done repeatedly to figure out the weight of the  water or food which each device contains. In each flow, the water supplier and feed machine measures the weight. When the measured weight is above the threshold which is a criteria of knowing whether the water or food is empty, a data message that contains measured weight is published. However, if it is not, an error message is published. 
 
-Activity Diagram for Receiving scale message is shown in figure 10. When a scale-type message is received to the platform, MQTT Manager parses the message and toss it to the Rule Engine. After that, Rule Engine activates 3 rules, and these rules proceeds in parallel: update device status, update remaining amount and update consumption. For activating update device status, Device Manager block updates the device’s status and toss the changed status to the Dashboard block only if the status of the device is changed. For Updating remaining amount, the scale-type message is stored in the Time-series Data table by the Time-series Manager block. After storing the message, the payload of the message is tossed to the Dashboard block to update the remaining amount widget.
-Lastly, for updating consumption, the platform checks the consumption cache firstly. When the consumption cache is empty, the consumption array is loaded to the cache, and when it’s not, consumption is calculated and appended to the consumption array of the cache. To load cache, Dashboard request all the records that are stored after midnight of the day for the topic of the received message. The consumption array is prepared by calculating all of the consumptions for that record. After the consumption cache is updated, Dashboard block updates the consumption widget based on the prepared consumption cache.
-The basic idea for calculating consumption is comparing current and previous scales. When a pet consumes food or water, the scale for that will be decreased. Thus, consumption can be derived by accumulating each decreased amount. The pseudo-code for calculating consumption is shown in algorithm 1. The initial value for the decrease amount is set to 0, and the decrease amount is updated to the difference between the previous and current scale only when the previous scale is bigger than the current scale. By adding the decreased amount to the previous consumption, current consumption can be derived.
+% ::Receive scale message::
+When the platform which is a subscriber for data message receives the data message, it sets the status of the device to ‘connected’ which means device is working correctly. And it updates the dashboard to provide the remaining amount and consumption of the water or food to the user in the visual way. The consumption is calculated by adding the decrease amount to the previous consumption. The pseudo-code for calculating the consumption is shown in algorithm 1.
 
 \begin{algorithm}
 \caption{Calculate consumption}\label{algo}
@@ -292,25 +282,8 @@ The basic idea for calculating consumption is comparing current and previous sca
 \end{algorithmic}
 \end{algorithm}
 
-% ::4. Publishing action message::
-\subsubsection{Publishing action message}
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/publishActionMessage.png}}
-\caption{Activity Diagram for Publishing Action Message.}
-\label{fig}
-\end{figure}
-
-Activity diagram for Publishing action message is shown in figure 11. Publishing action message has two entry points: When the serve button is pressed by the user, and when Node-RED flow is deployed. When the serve button is pressed by the user, the event is tossed to the Device Manager block, and publish an action-type message with the serving amount is stored to message payload. The second entry point is to publish action-type messages according to schedule. After Node-RED flow is deployed, the Schedule Engine selects all the schedules where the schedule’s execution time matches the current time. And then, Schedule Manager publishes all the action-type messages that are stored in schedule with the help of Device Manager. Finally, after all the action-type messages are published, the Schedule Engine waits for another minute and repeats selecting the scheduled procedure.
-
-% ::5. Receiving Error Message::
-\subsubsection{Receiving Error Message}
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/errorMessageReceived.png}}
-\caption{Activity Diagram for Receiving Error Message.}
-\label{fig}
-\end{figure}
-
-Activity diagram for Receiving error message is shown in figure 12. Similarly, with the receiving scale message, the error-type message is parsed in the MQTT Manager block and tossed to the Rule Engine block when the platform receives it. After that, the Rule Engine block activates two rules in parallel: Update device status, Notify error. To update the status of the device, the Rule Engine block sends a signal to the Device Manager block. Device Manager block updates the status of the device to error and sends the signal to the Dashboard block to update the device status widget only if the status of the device is changed. To notify the error to the user, the Rule Engine block sends a signal to the Device Manager block to check the status of the device. As sending the notification message is done only if the status of the device equals ‘connected’. Device Manager block ignores errors when the status of the device is not ‘connected’. After checking the device status, the Device Manager sends a signal to the User Manager block to check the user setting for notification. In case of the notification being set to 0, the User Manager block ignores the error as well. When notification is set to 1, User Manager sends the signal to the Rule Engine block, with user email and WhatsApp account setting. Finally, the Rule Engine block sends email and WhatsApp messages based on the user notification information.
+% ::Receive scale message::
+As the platform subscribes the error message, the error message is sent to the platform. When the error message is received, platform inquires the status of the device from the database. While the error message is ignored If the status of the device is ‘error’, the platform sends the notification to the user about the received error when the status is not ‘error’. After the notification is sent, the status of the device is changed to ‘error’ and the dashboard is updated accordingly.
 
 % —— IMPLEMENTATION ——
 \section{Implementation}
