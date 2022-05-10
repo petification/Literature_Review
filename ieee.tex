@@ -98,13 +98,11 @@ However, the IoT platforms which are used to implement pet care IoT solution has
 Moreover, while tracking water and food consumption and automatic feeding are commonly supported by previous implementations, there are few solutions that support device status information and error notification.
 
 % `Project novelty`
-The IoT platform for proposed pet care IoT solution is implemented using Node-RED and Mosquitto which are both open-source. And also, the present IoT solution provides device connectivity, amount of remaining water and food for each device, and error notification service when the water or food is running out of empty as well as tracking consumption and automatic feeding.
-
-% `Node-RED and MQTT`
-As a flow-based open-source visual programming tool \cite{b8}, Node-RED makes possible the implementation of IoT platform much faster and more user-friendly with no feature limitations. Moreover, as a lot of nodes and flows are shared in its official website and Node Package Manager (NPM), implementing an IoT platform using Node-RED has the advantage of utilizing resources. Also, MQTT Protocol is used to manage overall manage flow. MQTT Protocol is suitable for various IoT solutions because of its lightweight characteristic and publish/subscribe model \cite{b9}.
+The proposed IoT solution named "Petification" uses open-source projects for IoT platform. Node-RED which is a flow-based open-source visual programming tool \cite{b8} is used to implement the APIs of the IoT platform. By using Node-RED, Petification can get the benefit of providing user-friendly UI, fast development, and a lot of resources shared by users. Also, Eclipse Mosquitto which is one of the open-source implementation of the MQTT messaging protocol is used to manage overall message flow. Using MQTT protocol as a message broker allows the IoT platform to connect user with devices in lightweight way \cite{b9}.
 
 % `Functionality`
-In Petification, the water supplier and feed machine are attached to the platform to provide water and food to the pet and scale the weight of the water and food by the load cell. In the feed machine, a servo motor is attached so that the user can control the served amount of food. All the load cells and servo motors are mounted to Raspberry Pi for each device.
+Petification provides informations about device connectivity and amount of remaining  food/water for each device as well as food/water consumption. Additionally, Petification provides an error notification service when the water or food is running out of empty among with automatic feeding service.
+The water supplier and feed machine are attached to the platform to feed and water to the pet and to scale the weight of the food/water. While both water supplier and feed machine uses the load cell to scale the weight, a servo motor is attached only to the feed machine so that the user can control the served amount of food. All the load cells and servo motors are mounted to Raspberry Pi for each device.
 The web-based dashboard is supported to show the remaining amount of water and food, show the water and food consumption, show the device connectivity, and serve the food by button or by schedule. The user of the Petification gets a notification when the water or food is running out of empty.
 
 % —— Literature Review ——
