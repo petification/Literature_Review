@@ -101,42 +101,26 @@ Moreover, while tracking water and food consumption and automatic feeding are co
 The proposed IoT solution named "Petification" uses open-source projects for IoT platform. Node-RED which is a flow-based open-source visual programming tool \cite{b8} is used to implement the APIs of the IoT platform. By using Node-RED, Petification can get the benefit of providing user-friendly UI, fast development, and a lot of resources shared by users. Also, Eclipse Mosquitto which is one of the open-source implementation of the MQTT messaging protocol is used to manage overall message flow. Using MQTT protocol as a message broker allows the IoT platform to connect user with devices in lightweight way \cite{b9}.
 
 % `Functionality`
-Petification provides informations about device connectivity and amount of remaining  food/water for each device as well as food/water consumption. Additionally, Petification provides an error notification service when the water or food is running out of empty among with automatic feeding service.
-The water supplier and feed machine are attached to the platform to feed and water to the pet and to scale the weight of the food/water. While both water supplier and feed machine uses the load cell to scale the weight, a servo motor is attached only to the feed machine so that the user can control the served amount of food. All the load cells and servo motors are mounted to Raspberry Pi for each device.
-The web-based dashboard is supported to show the remaining amount of water and food, show the water and food consumption, show the device connectivity, and serve the food by button or by schedule. The user of the Petification gets a notification when the water or food is running out of empty.
+Petification provides information about device connectivity and amount of remaining  food/water for each device as well as food/water consumption. Additionally, Petification provides an error notification service when the water or food is running out of empty among with automatic feeding service.
+The water supplier and feed machine are attached to the platform to feed and water to the pet and to scale the weight of the food/water. While both water supplier and feed machine uses the load cell to scale the weight, a servo motor is attached only to the feed machine so that the user can control the served amount of food. All the load cells and a servo motor are mounted to Raspberry Pi for each device.
+The web-based dashboard is supported to provide these information and services in the visual way. The food/water empty notification is also provided to the user via email and WhatsApp mobile application.
 
 % —— Literature Review ——
 \section{Related Literature}
-% Index paragraph
-This chapter will be explained with hardware and software perspectives respectively. In the hardware part, used devices are compared with them of Petification, and used IoT platform and provided feature will be compared with present research in the software part.
-
-\subsection{Hardware}
 % Reference 1
 P. N. Vrishanka \textit{et al.} \cite{b10} proposed an automated pet feeder which serves food to the pet according to the remaining amount of food in the food bowl. An ultrasonic distance sensor and SG90 servo motor were mounted to Arduino Uno R3 in this research. An ultrasonic distance sensor is used to determine the remaining food amount by measuring the distance from the entrance of the feed container to the inside of the bowl.
 
-% Comparison
-However, the feed machine of Petification used load cell sensors to determine the remaining food amount, as it is difficult to use ultrasonic waves to measure the amount of feed accurately.
+% Reference 2
+Rogerio Nogueira \textit{et al.} \cite{b11} proposed a system that can serve food and water according to pre-scheduled times and amount. Additionally, the system provides notification service for the abnormal situations with the photos and alerts and "chat-based" intelligent interface to the user. This research is conducted with Raspberry Pi, Python, Telegram cloud service and IBM Watson Assistent.
 
-% Reference 2, 3
-Rogerio Nogueira \textit{et al.} \cite{b11} proposed a system that provides food and water to the pet, takes pictures of the pet, and provides an intelligent interface to the user with the messenger. In this research, a rotary valve and DC motor were used to provide food to the pet. Vania \textit{et al.} \cite{b12} proposed an IoT solution that provides RFID to identify the pet, serves food by schedule, and provides an application to the user. This research also uses a propeller blade and DC motor for remote feeding.
+% Reference 3
+Vania \textit{et al.} \cite{b12} proposed an IoT solution that identifies each pet via RFID and serves food by schedule. The dog feeder in the research was developed using Arduino Uno and ESP8266 Wi-Fi Module with load cell and DC motor. An Android mobile application is provided to the user and the IoT platform which is developed with Node JS and MySQL database controls device-user communication using MQTT protocol.
 
-% Comparison
-However, the problem with using a rotary valve or propeller blade is that the feed can’t be provided with the exact weight. This is because the amount of feed to be provided to the pet is determined based on the serving unit contained in one space. Thus, when the feed machine tries to provide certain weight of feed with the rotary valve or propeller blade, there is always the possibility of providing more than the intended weight, even if the error for load cell is not concerned. The Petification feed machine does not use a rotary valve but uses a gate that can block the feeder container outlet because it has the advantage of being able to adjust the amount of feed to be supplied in more detail than the rotary valve method.
-
-In addition, both \cite{b11} and \cite{b12} uses a DC motor to provide feed through continuous rotation of the rotary valve. However, the feed machine of Petification uses a servo motor because they need more precise control than free continuous rotation \cite{b13}.
-
-\subsection{Software}
 % Reference 4
-Y. Chen \textit{et al.} \cite{b5} proposed a pet care IoT system that provides food and water consumption, the number of defecation, and defecation duration. It was developed through Arduino IDE and provides features above with numbers and visual statistics in real-time using “Blynk” as an IoT platform.
+Y. Chen \textit{et al.} \cite{b5} proposed a pet care IoT solution that provides information such as food and water consumption, the number of defecation, and defecation duration. It was implemented using Arduino Uno and ESP8266 Wi-Fi Module with load cell, servo motor and motion sensor. A mobile application is provided as an UI with the help of “Blynk” IoT platform.
 
 % Reference 5
-T. Sangvanloy \textit{et al.} \cite{b4} proposed a pet care IoT solution that visualizes the daily food consumption in real-time and automatically feeds the pet according to the scheduled time. It was also implemented using “Blynk” as an IoT platform.
-
-% Platform Comparison
-From the used platform perspective, the above two studies commonly used ‘Blynk’ as an IoT platform. However, Petification uses Node-RED instead of ‘Blynk’ to take advantage of visual programming, openly pre-developed flows and nodes, and various notification means.
-
-% Functionality Comparison
-Also, non of the two studies above provide information on device status. Although tracking water and feed consumption is an important feature in pet care IoT solutions, keeping track of IoT devices’ status is also an important feature. Petification provides the status of feed machines and water supply machines, such as device connectivity, error existence, and the amount of feed or water remaining in the device. Moreover, Petification provides an error notification feature that notifies users when the error occurred, such as when water or feed is empty.
+T. Sangvanloy \textit{et al.} \cite{b4} proposed a pet care IoT solution that visualizes the daily food consumption in real-time and automatically feeds the pet according to the scheduled time. The conducted research also provides automatic serving amount adjustment feature based on the pet's species and weight. The IoT solution was implemented with ESP32 Wi-Fi micro-controller, servo motor, load cell, and “Blynk” IoT platform.
 
 % —— METHODOLOGY ——
 \section{Methodology}
