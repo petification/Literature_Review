@@ -124,11 +124,7 @@ T. Sangvanloy \textit{et al.} \cite{b4} proposed a pet care IoT solution that vi
 
 % —— METHODOLOGY ——
 \section{Methodology}
-% Section Index
-In this chapter, the overview and used technologies are explained. The high-level outline of Petification is explained in the overview part, and used technology including sensor, actuator, program, and protocol is explained in the technology part.
-
-\subsection{Overview}
-As MQTT is the main messaging protocol for Petification and MQTT uses TCP/ IP protocol stack, each device is connected to the Access Point (AP) through Wi-Fi. Thus, all the messages published from devices are sent to the AP with Wi-Fi, and then they are sent to the Petification platform through the internet. Petification platform processes the messages and sends the processed data to the users in form of a web dashboard page, E-Mail, and WhatsApp messages. On the contrary, users can send requests with the web dashboard to the platform. While some requests require only the platform, the requests to activate the actuator are forwarded to the device with the help of the platform. In summary, users and devices communicate bi-directionally through the platform. The overview for Petification is shown in figure 2.
+The system architecture for Petification is designed to connect the feed machine and water supplier with the users. Each users and devices can communicate bi-directionally through the platform. The feed machine and water supplier are connected to the Access Point (AP) through Wi-Fi. Thus, all the messages published from devices are sent to the AP with Wi-Fi, and then they are sent to the Petification platform through the internet. Petification platform processes the messages and sends the processed data to the users in form of a web dashboard page, E-Mail, and WhatsApp messages. On the contrary, users can send requests with the web dashboard to the platform. While some requests require only the platform, the requests to activate the actuator are forwarded to the device with the help of the platform. The overview for Petification is shown in figure 2.
 
 % `Overview.png`
 \begin{figure}[htbp]
@@ -137,49 +133,8 @@ As MQTT is the main messaging protocol for Petification and MQTT uses TCP/ IP pr
 \label{fig}
 \end{figure}
 
-\subsection{Used Technology}
-\subsubsection{Hardware}
-% ::Load cell::
-The load cell sensor serves to convert the weight or force acting into an electrical analog signal \cite{b14}. In the present research, three load cells that can weigh up to 5kg with 1g accuracy are used.
-% ::HX711 Amplifier::
-All the load cells are mounted to the microcontroller through a load cell amplifier. In Petification, three HX711 modules are used as load cell amplifiers. HX711 converts an analog signal into a digital signal, amplifies a measured value of a low load cell, and then transmits the value to another microcontroller \cite{b15}. 
-% ::MG90S Servo Motor::
-The servo motor is a rotary or linear actuator that rotates and pushes a machine \cite{b16} and one MG90S servo motor is used.
-% ::Raspberry Pi Microcontroller::
-The role of the microcontroller is orchestrating all the sensors and actuators and communicating with the IoT platform. For the microcontroller, two Raspberry Pi Zero W are used.
-
-\subsubsection{Node-RED}
-% ::1. Flow-based visual development tool - fast development::
-Node-RED is a flow-based visual development tool that is easy for developers and non-developers to develop programs \cite{b17}.
-% ::3. IBM-supported open source::
-It is originally developed by International Business Machines Corporation (IBM), and IBM made it to an open-source project in 2013 \cite{b8}. Not only Node-RED itself but also various nodes are being distributed through Node Package Manager (NPM). Thus, users can share their nodes or flows, and a lot of contributed nodes are available in NPM.
-% ::2. Interoperability::
-One of the Node-RED’s operational strengths is that it can run on various environments such as local, Raspberry Pi, Docker, Cloud Instance, \textit{et al.} Thus, Node-RED v2.2.1 is installed in not only the platform server but also Raspberry Pi of water supplier and feed machine.
-
-\subsubsection{MQTT}
-MQTT stands for Message Queuing Telemetry Transport. It is an OASIS standard protocol and provides light-weight, publish/subscribe messaging transport for IoT \cite{b9}.
-% ::Light-weight::
-One characteristic of MQTT is light-weight. The MQTT protocol has a small message size and message overhead and consumes less power and resources than Advanced Message Queuing Protocol (AMQP) and Hypertext Transfer Protocol (HTTP) \cite{b18}. With its light-weight characteristic, it is suitable for communication in IoT fields where network bandwidth is at a premium \cite{b19}.
-% ::Reliability::
-MQTT uses TCP as transport layer protocol and TLS/SSL can be used for security. It makes MQTT more reliable than Constrained Application Protocol (CoAP) which uses UDP as the transport protocol \cite{b18}.
-% ::Pub/sub::
-All MQTT messages have their own topics, and MQTT clients can send data for a certain topic by publishing messages to MQTT broker or receive data by subscribing to topics for those messages.
-% ::Mosquitto::
-In this research, Eclipse Mosquitto v1.4.15 is used as an MQTT Message Broker. Eclipse Mosquitto is an open-source message broker implementing MQTT protocol versions 5.0, 3.1.1, and 3.1\cite{b20}. 
-
-\subsubsection{MySQL}
-MySQL is a fast, flexible, and easy-to-use database with RDBMS (relational database management system). The combination of MySQL’s secure processing and reliable software provides effective transactions for large projects, so it is flexible with open sources. MySQL is also excellent in terms of data security because it is evaluated as having the safest and most reliable database management system \cite{b21}. In addition, MySQL is considered a suitable database to manage effective data flows because it has good compatibility with Node-RED \cite{b21}. The used version of MySQL is v5.7.37.
-
-% —— HARDWARE DESIGN ——
-\section{Hardware Design}
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/Feed Machine & Water Supplier.jpg}}
-\caption{CAD design for the feed machine and water supplier}
-\label{fig}
-\end{figure}
-
 \subsection{Feed Machine}
-Feed Machine is one of the devices attached to the proposed platform. The Feed Machine has 2 main functionalities: serving food to the pet and publishing the weight of the food bowl and container to the platform. To serve food to the pet, the servo motor is mounted to open and close the food gate. As in figure 4, the servo motor gives food in an open/close type. Food serving is done with the help of gravity; After the food gate is opened, food rolls down the slope, and thus food is served. By closing the food gate Feed Machine stops the serving of the food. To measure the weight of the food bowl and container, two load cell is mounted under each of them. Like in figure 5, each load cell is connected with an HX711 Amplifier to convert the analog signal to a digital signal. Also, as in figure 3, Load cell sensors are installed between wooden boards to measure the weight. Additionally, in figure 3, a food container carries food through a slide into a food bowl. All the sensors and a servo motor are attached to Raspberry Pi Zero W.
+To serve food to the pet, a MG90S servo motor is mounted to open and close the food gate. As in figure 2, the servo motor gives food in an open/close type. Food serving is done with the help of gravity; After the food gate is opened, food rolls down the slope, and thus food is served. By closing the food gate Feed Machine stops the serving of the food. Measuring the weight of the food bowl and container is done with two load cells which scale up to maximum 5kg with 1g accuracy. Each load cell is mounted both food bowl and container and is connected with an HX711 Amplifier to convert the analog signal to a digital signal. All the sensors and a servo motor are attached to Raspberry Pi Zero W as shown in the figure 3.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/servo_gate.png}}
@@ -194,7 +149,7 @@ Feed Machine is one of the devices attached to the proposed platform. The Feed M
 \end{figure}
 
 \subsection{Water Supplier}
-The water supplier is also a device attached to the proposed platform. The main functionalities for the water supplier are supplying the water to the pet and publishing the weight of the remaining water. However, a servo motor is not used for the water supplier as controlling the serving amount of the supplied water isn’t necessary. Similar to a feed machine, to measure the weight of water in a water supplier a load cell is mounted under the water supplier. In addition, like in figure 6, the HX711 amplifier is used to convert analog signals into digital signals. As in figure 3, like a feed machine load cell sensors are installed between wooden boards to measure the weight. Both types of sensor and RaspberryPi are the same as the feed machine. 
+Unlike feed machine, the servo motor is not used for the water supplier as controlling the serving amount of the supplied water isn’t necessary. Thus only one load cell is mounted under the water supplier to scale the remaining amount of the water. A load cell with HX711 amplifier is attached to the Raspberry Pi Zero W as shown in figure 4.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/water supplier circuit.jpg}}
@@ -202,32 +157,22 @@ The water supplier is also a device attached to the proposed platform. The main 
 \label{fig}
 \end{figure}
 
-% —— SOFTWARE DESIGN ——
-\section{Software Design}
-\subsection{User-to-device communication}
+\subsection{Platform}
+The user-to-device communication is occured when the user wants to serve the food to the pet, and device-to-user communication is occured to provide information and notification to the user. To serve the food, user can either set the serving schedule or press the button in the dashboard. The serving schedules are stored to the database and checked every minute to send the message to the feed machine when the scheduled time arrives. The food serving message is also sent when the user presses the button. After the feed machine receives the message, it opens the food gate and scales the food bowl repeatedly to serve desired amount of food to the pet. The detailed flow for the food serving is shown in figure 6.
+
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/user2device.png}}
 \caption{Activity diagram for user-to-device communication}
 \label{fig}
 \end{figure}
-% ::Publish action message::
-As shown in figure 7, serving a certain amount of food is done in user-to-device communication. When the Node-RED flow of the platform is deployed or when the user adds a schedule to the database, the platform selects the schedules which are supposed to be activated at the current time from the database. The food serving messages are published only when corresponding schedules are found in the database. When the schedules are not found, the platform waits 1 minute and does the same job again. The food serving message is also published when the user manually requests to serve the food.
 
-% ::Serve the food::
-As the feed machine is a subscriber for the food serving message, the food serving message is sent to the feed machine. When the feed machine receives the food serving message, it opens the food gate to serve the food. And the feed machine repeatedly measures the weight of the food bowl. The food gate of the feed machine is closed when the measured weight is above the desired weight or when the device measures the weight over 500 times. After the food gate of the feed machine is closed, the platform inquires another schedule for the current time from the database repeatedly.
+To provide information and notification to the user, both water supplier and feed machine scales what they stores. When the measured weight is above certain threshold, they sends message containing the measured weight to the platform. This data message is used to update and show the remaining amount, consumption and device status to the user. However, when the measured weight is below the threshold, then error message is sent to the platform to update the device status and to notify the user that the food/water is empty. The detailed device-to-user flow is shown in figure 7 and the pseudo-code for calculating the consumption is shown in algorithm 1.
 
-\subsection{Device-to-user communication}
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/device2user.png}}
 \caption{Activity diagram for device-to-user communication}
 \label{fig}
 \end{figure}
-
-% ::Publish scale message::
-The flow shown in figure 8 is done repeatedly to figure out the weight of the water or food which each device contains. In each flow, the water supplier and feed machine measure the weight. When the measured weight is above the threshold which is a criterion of knowing whether the water or food is empty, a data message that contains measured weight is published. However, if it is not, an error message is published. 
-
-% ::Receive scale message::
-When the platform which is a subscriber for data message receives the data message, it sets the status of the device to ‘connected’ which means the device is working correctly. And it updates the dashboard to provide the remaining amount and consumption of the water or food to the user in a visual way. The consumption is calculated by adding the decreased amount to the previous consumption. The pseudo-code for calculating the consumption is shown in algorithm 1.
 
 \begin{algorithm}
 \caption{Calculate consumption}\label{algo}
@@ -245,8 +190,23 @@ When the platform which is a subscriber for data message receives the data messa
 \end{algorithmic}
 \end{algorithm}
 
-% ::Receive scale message::
-As the platform subscribes to the error message, the error message is sent to the platform. When the error message is received, the platform selects the status of the device from the database. While the error message is ignored If the status of the device is ‘error’, the platform sends the notification to the user about the received error when the status is not ‘error’. After the notification is sent, the status of the device is changed to ‘error’ and the dashboard is updated accordingly.
+Three open-source projects are used in the platform: Node-RED, Eclipse Mosquito, and MySQL.
+
+\subsubsection{Node-RED}
+Node-RED is a flow-based oen-source visual development tool that is easy for developers and non-developers to develop programs \cite{b17}.
+One of the strength of the Node-RED is powerful community. Not only Node-RED itself but also various nodes such as dashboard widgets and database drivers are being distributed through Node Package Manager (NPM).
+Another Node-RED’s strength is that it can run on various environments such as local, Raspberry Pi, Docker, Cloud Instance, \textit{et al.} Thus, Node-RED v2.2.1 is installed in not only the platform server but also Raspberry Pi of water supplier and feed machine.
+
+\subsubsection{Eclipse Mosquitto MQTT message broker}
+MQTT (Message Queuing Telemetry Transport) is an OASIS standard protocol and provides light-weight, publish/subscribe messaging transport for IoT \cite{b9}.
+The publish/subscribe model of the MQTT protocol allows the IoT platform to support bi-directional communication in a way that one can subscribe the "topic" of the message to receive a message published to that "topic" by another.
+In this research, Eclipse Mosquitto v1.4.15 is used as an MQTT Message Broker.
+Eclipse Mosquitto is an open-source message broker implementing MQTT protocol versions 5.0, 3.1.1, and 3.1\cite{b20}. 
+
+\subsubsection{MySQL}
+MySQL is a fast, flexible, and easy-to-use open-source database with RDBMS (relational database management system).
+Among with the performance and security perspective, MySQL is considered a suitable database to manage effective data flows because it has good compatibility with Node-RED \cite{b21}.
+In this reason, MySQL v5.7.37 is integrated as a component of the platform.
 
 % —— IMPLEMENTATION ——
 \section{Implementation}
