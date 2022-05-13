@@ -133,8 +133,28 @@ The system architecture for Petification is designed to connect the feed machine
 \label{fig}
 \end{figure}
 
+\subsection{Water Supplier}
+Measuring the weight of the water is done with one load cell which scales up to maximum 5kg with 1g accuracy. A load cell is installed between the two plates to measure the pressure applied to an upper plate as shown in figure 2 and is attached to the Raspberry Pi through the HX711 amplifier which converts the analog signal to the digital signal as shown in figure 3. To convert the measurement of the load cell to the weight data, the calibration process has proceeded to get the reference unit. The process of calibration is shown below:
+\[
+	referenceUnit = \frac{average(loadCellMeasurements)}{actualWeight}
+\]
+
+A 500mL water bottle which is used as actual weight of 500g is measured 500 times to get a reference unit.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.3\textwidth]{./images/load-cell.png}}
+\caption{Installaion of a load cell}
+\label{fig}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.5\textwidth]{./images/water supplier circuit.jpg}}
+\caption{Circuit diagram of the water supplier}
+\label{fig}
+\end{figure}
+
 \subsection{Feed Machine}
-To serve food to the pet, a MG90S servo motor is mounted to open and close the food gate. As in figure 2, the servo motor gives food in an open/close type. Food serving is done with the help of gravity; After the food gate is opened, food rolls down the slope, and thus food is served. By closing the food gate Feed Machine stops the serving of the food. Measuring the weight of the food bowl and container is done with two load cells which scale up to maximum 5kg with 1g accuracy. Each load cell is mounted both food bowl and container and is connected with an HX711 Amplifier to convert the analog signal to a digital signal. All the sensors and a servo motor are attached to Raspberry Pi Zero W as shown in the figure 3.
+To serve food to the pet, a MG90S servo motor is mounted to open and close the food gate. As in figure 4, the servo motor gives food in an open/close type. Food serving is done with the help of gravity; After the food gate is opened, food rolls down the slope, and thus food is served. By closing the food gate Feed Machine stops the serving of the food. Two load cells and two HX711 amplifiers are installed in the same way as water supplier under the food bowl and container to measure the weight of the food. All the load cells, HX711 amplifiers and a MG90S servo motor are attached to the Raspberry Pi Zero W as shown in figure 5.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/servo_gate.png}}
@@ -145,15 +165,6 @@ To serve food to the pet, a MG90S servo motor is mounted to open and close the f
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/feed machine circuit.jpg}}
 \caption{Circuit diagram of the feed machine}
-\label{fig}
-\end{figure}
-
-\subsection{Water Supplier}
-Unlike feed machine, the servo motor is not used for the water supplier as controlling the serving amount of the supplied water isn’t necessary. Thus only one load cell is mounted under the water supplier to scale the remaining amount of the water. A load cell with HX711 amplifier is attached to the Raspberry Pi Zero W as shown in figure 4.
-
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/water supplier circuit.jpg}}
-\caption{Circuit diagram of the water supplier}
 \label{fig}
 \end{figure}
 
@@ -211,36 +222,10 @@ In this reason, MySQL v5.7.37 is integrated as a component of the platform.
 % —— IMPLEMENTATION ——
 \section{Implementation}
 
-% ::—— Hardware Implementation ——::
-\subsection{Hardware}
-% ::Implantation result for both devices::
-The result of the implementation for the water supplier is shown in figure 9, and that for the feed machine is shown in figure 10.
-
-% ::Water supplier::
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/Water Supplier.jpg}}
-\caption{Result of implementation for water supplier}
-\label{fig}
-\end{figure}
-
-% ::Feed Machine::
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/Feed Machine.jpg}}
-\caption{Result of implementation for feed machine}
-\label{fig}
-\end{figure}
-
 % ::Calibration and Weight measurement::
-\subsubsection{Calibration and weight measurement}
-% ::Calibration::
-To convert the measurement of the load cell to the weight data, the calibration process has proceeded to get the reference unit. The process of calibration takes two steps. First, the force acting on the load cell by a standard object of known weight is repeatedly measured. In the calibration process of the petification, a 500mL bottle of water is used as a standard object for 500g weight. Second, get a reference unit by calculating the average measurement of the standard object and dividing it by actual weight, which is 500g in this case.
-
-% ::Weight Measurement::
-Measuring the weight of the water and food is done with python code. By using the ‘exec’ node of the Node-RED in Raspberry Pi to execute python code, the result of a measurement can be used in Node-RED. However, even if the calibration has proceeded, there is always the possibility of measurement error. Thus the ’smooth’ node of the ‘node-red-node-smooth’ library has been used to get a maximum value of two measurement results. By calibrating the measurement and calculating the maximum value, each Raspberry Pi in the water supplier and feed machine can get the correct weight.
-
-% ::Publishing weight or error message::
-\subsubsection{Publishing weight or error message}
-Before publishing the weight of the water and food, the error detecting process has been progressed with using the ’switch’ node of the Node-RED. The ‘switch’ node checks if the weight is below the threshold value which is 10g for this implementation. When it’s true, each device publishes an error message instead of a scale message. Error message and scale message is distinguished by topic and payload of the message is either error message or weight value. The implemented Node-RED flow for publishing weight or error messages is shown in figure 11.
+\subsection{Water supplier}
+Calibrating and measuring the weight of the water is done with python code. By using the "exec" node of the Node-RED in Raspberry Pi to execute python code, the result of a measurement can be used in Node-RED. However, even if the calibration has proceeded, there is always the possibility of measurement error. Thus the "smooth" node of the "node-red-node-smooth" library has been used to get a maximum value of two measurement results.
+After the weight is measured, the "switch" node determines what type of message (weight data or error) has to be sent by checking if the weight is below the threshold value which is 10g for this implementation. The messages are sent after the "function" node prepares the message and the "mqtt out" node publishes the message. The Node-RED flow for publishing weight or error messages is shown in figure 11 and the implemented water supplier is shown in figure 12.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/Water Supplier Error Detection.png}}
@@ -248,13 +233,25 @@ Before publishing the weight of the water and food, the error detecting process 
 \label{fig}
 \end{figure}
 
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.5\textwidth]{./images/water-supplier.jpg}}
+\caption{Result of implementation for water supplier}
+\label{fig}
+\end{figure}
+
 % ::Automatic feeding::
-\subsubsection{Automatic feeding}
-The action message is structured to contain ‘action’ in the message topic and desired serving amount in the message payload. When an action message has arrived, the bowl’s weight and message payload which is desired food weight are combined into one message. It is sent to a ‘loop’ node that is supported by the ‘node-red-contrib-loop-processing’ library and if the index is 0 and the bowl weight is less than the user’s input, the container’s servo motor opens the door to provide food. It continues to compare the two weights, the bowl weight is measured, and the payload of the message sent is continuously updated. During the loop, when the bowl weight becomes bigger than the user’s input, the loop ends and the servo motor closes the door and ends feeding. The implemented Node-RED flow for automatic feeding is shown in figure 12.
+\subsection{Feed machine}
+Among with the weight measuring flow which is same as that of the water supplier, flow for serving certain amount of the food to the pet is implemented in the feed machine. Food serving flow does not begin before a message which contains desired serving amount at the message payoad arrives. The "join-wait" node of the "node-red-contrib-join-wait" node module waits a food seving message and returns a object which contains a current weight for that time and desired weight after the serving message is arrived. Then, the current weight is measured and compared repeatedly by a "loop" node of the "node-red-contrib-loop-processing" and a "change" node. The food gate is opened for the first loop and is closed when the current weight is above the desired weight or the loop is repeated 500 times by the "pi-gpiod out" node of the "node-red-node-pi-gpiod" node module. The Node-RED flow for serving food is shown in figure 13 and the implemented feed machine is shown in figure 14.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/automaticFeeding.png}}
 \caption{Node-RED screenshot for automatic feeding}
+\label{fig}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.5\textwidth]{./images/feed-machine.jpg}}
+\caption{Result of implementation for feed machine}
 \label{fig}
 \end{figure}
 
@@ -278,7 +275,19 @@ The purpose of Rule Engine is to activate actions according to MQTT messages. It
 Handling devices that are attached to the platform by users is the main purpose of the Device Manager block. It provides ReST APIs that can add a new device to the platform (with HTTP POST method), modify the status of the device (with HTTP PATCH method), delete a device (with HTTP DELETE method). And it also provides functionality for publishing an action-type message to a specific device.
 
 \subsubsection{Dashboard}
-Dashboard Manager is to provide Graphical User Interface (GUI) to the user. By using this block, users can be provided the status of water and food remaining and consumption visually. It also provides buttons to serve food and input areas to set user settings.
+Dashboard Manager is to provide Graphical User Interface (GUI) to the user. By using this block, users can be provided the status of water and food remaining and consumption visually. It also provides buttons to serve food and input areas to set user settings. The screenshots for implented dashboard are shown in figure 13 and 14.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.5\textwidth]{./images/feed_machine_ui.png}}
+\caption{Screenshot for Feed Machine tab}
+\label{fig}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.5\textwidth]{./images/water_supplier_ui.png}}
+\caption{Screenshot for Water Supplier tab}
+\label{fig}
+\end{figure}
 
 \subsubsection{User Management}
 The purpose of the User Manager block is to provide an interface for modifying user settings. Users can manage these 4 settings: Notification, Email address, WhatsApp information, and timezone where the user lives.  To support global users, Timezone settings are included. As all the times that platform uses and database stores use Coordinated Universal Time (UTC) timezone, converting the time of the user to the UTC is necessary. This setting is especially important when a user adds a new schedule by using Schedule Engine, and when providing local time to the user in the Dashboard.
@@ -290,53 +299,47 @@ Handling and executing schedules is the main functionality for this block. For s
 Managing Time-series Data Table of Database is the main purpose for Time-series Manager block. This block provides 3 types of ReST APIs for managing time-series data: Inquiring record feature (with HTTP GET method), Changing record validity (with HTTP PATCH method), and Deleting record (with HTTP DELETE method).
 
 % ::—— Dashboard Implementation ——::
-\subsection{Dashboard}
-Petification’s dashboard was implemented using ‘node-red-dashboard’, which provides a set of nodes to make a live data dashboard \cite{b23}.
-The dashboard consists of three tabs: Feed Machine tab, Water Supplier tab, and User Settings tab.
+%\subsection{Dashboard}
+%Petification’s dashboard was implemented using ‘node-red-dashboard’, which provides a set of nodes to make a live data dashboard \cite{b23}.
+%The dashboard consists of three tabs: Feed Machine tab, Water Supplier tab, and User Settings tab.
 
 % ::Feed Machine tab::
-\subsubsection{Feed Machine tab}
-In the Feed Machine tab, Device Information widget, Feed Machine Statistics widget, and Serve Food widget are provided. As all the functionalities this tab provides are device-specific, selecting a device is included in the Device Information widget and is displayed as a dropdown.
+%\subsubsection{Feed Machine tab}
+%In the Feed Machine tab, Device Information widget, Feed Machine Statistics widget, and Serve Food widget are provided. As all the functionalities this tab provides are device-specific, selecting a device is included in the Device Information widget and is displayed as a dropdown.
 % ::Device connectivity::
-Also, the status for the selected device is provided in the text and LED-shaped icon. The color of the LED-shaped icon changes to green when the device is connected, red for disconnected status, and yellow for error status.
+%Also, the status for the selected device is provided in the text and LED-shaped icon. The color of the LED-shaped icon changes to green when the device is connected, red for disconnected status, and yellow for error status.
 
 % ::Remaining of the food::
-In the Feed Machine Statistics widget, the Remaining amount of food and container and food consumption is provided. The remaining amount of food bowl and container is displayed as gauge and food consumption is displayed as a line graph.
+%In the Feed Machine Statistics widget, the Remaining amount of food and container and food consumption is provided. The remaining amount of food bowl and container is displayed as gauge and food consumption is displayed as a line graph.
 
 % ::Serve food by button or schedule::
-In the Serve Food widget, the user input interface is provided to publish feed serving action by button. The serve Food widget also provides the interface for automatic food feeding (scheduled feeding). Users can see all the feeding schedules in the table format, add a new schedule by user input interface, and delete the existing schedule by clicking the row of the table. Figure 14 shows the screenshot of implemented Feed Machine tab.
-
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/feed_machine_ui.png}}
-\caption{Screenshot for Feed Machine tab}
-\label{fig}
-\end{figure}
+%In the Serve Food widget, the user input interface is provided to publish feed serving action by button. The serve Food widget also provides the interface for automatic food feeding (scheduled feeding). Users can see all the feeding schedules in the table format, add a new schedule by user input interface, and delete the existing schedule by clicking the row of the table. Figure 14 shows the screenshot of implemented Feed Machine tab.
 
 % ::Water Supplier tab::
-\subsubsection{Water Supplier tab}
-Similar to the Feed Machine tab, the Water Supplier tab provides two widgets: Device Information widget and Water Supplier Statistics widget. The mechanism for each widget is identical to the Feed Machine tab. Figure 15 shows the screenshot of implemented Water Supplier tab.
+%\subsubsection{Water Supplier tab}
+%Similar to the Feed Machine tab, the Water Supplier tab provides two widgets: Device Information widget and Water Supplier Statistics widget. The mechanism for each widget is identical to the Feed Machine tab. Figure 15 shows the screenshot of implemented Water Supplier tab.
 
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/water_supplier_ui.png}}
-\caption{Screenshot for Water Supplier tab}
-\label{fig}
-\end{figure}
+%\begin{figure}[htbp]
+%\centerline{\includegraphics[width=0.5\textwidth]{./images/water_supplier_ui.png}}
+%\caption{Screenshot for Water Supplier tab}
+%\label{fig}
+%end{figure}
 
 % ::User Settings tab::
-\subsubsection{User Settings tab}
-The User Settings tab provides five widgets: User Information widget, Timezone settings widget, Notification settings widget, E-Mail address settings widget, and WhatsApp settings widget. 
+%\subsubsection{User Settings tab}
+%The User Settings tab provides five widgets: User Information widget, Timezone settings widget, Notification settings widget, E-Mail address settings widget, and WhatsApp settings widget. 
 % ::Sign in by token::
-In the User Information widget, users can sign in to the system by entering the token, which is an identifier for the user. After signing in, the user can see the token and username of the current user.
+%In the User Information widget, users can sign in to the system by entering the token, which is an identifier for the user. After signing in, the user can see the token and username of the current user.
 % ::Set timezone::
-To support global users, the Timezone settings widget is included in the tab. As all the times that platform uses and database stores use Coordinated Universal Time (UTC) timezone, converting the time of the user to the UTC is necessary.
+%To support global users, the Timezone settings widget is included in the tab. As all the times that platform uses and database stores use Coordinated Universal Time (UTC) timezone, converting the time of the user to the UTC is necessary.
 % ::Notification option::
-Notification settings widget, E-Mail address settings widget, and WhatsApp settings widget are to control error notification. Users can turn notifications on and off with the Notification settings widget and decide which accounts receive email and WhatsApp messages. Figure 16 shows the screenshot of the implemented User Settings tab.
+%Notification settings widget, E-Mail address settings widget, and WhatsApp settings widget are to control error notification. Users can turn notifications on and off with the Notification settings widget and decide which accounts receive email and WhatsApp messages. Figure 16 shows the screenshot of the implemented User Settings tab.
 
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/user_settings_ui.png}}
-\caption{Screenshot for User Settings tab}
-\label{fig}
-\end{figure}
+%\begin{figure}[htbp]
+%\centerline{\includegraphics[width=0.5\textwidth]{./images/user_settings_ui.png}}
+%\caption{Screenshot for User Settings tab}
+%\label{fig}
+%\end{figure}
 
 % ::—— EXPERIMENT & TESTING ——::
 \section{Experiment and Testing}
