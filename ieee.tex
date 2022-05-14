@@ -96,16 +96,16 @@ Because for those who left home often, it is challenging to take good care of th
 As a way to solve this problem, Internet of Things (IoT) technology has emerged.
 A lot of pet care IoT solutions are introduced in the market, and many studies and implementations are suggested.
 However, the IoT platforms which are used to implement pet care IoT solution has limitations.
-For example, a most commonly used IoT platform is "Blynk" \cite{b2, b3, b4, b5}, but the latest version of it is not open-source and the open-source version is no longer maintained.
-Also, "Adafruit IO" \cite{b6} and "Freeboard IO" \cite{b7} are other commonly used IoT platforms, but they are not open-source.
+For example, a most commonly used IoT platform is "Blynk" \cite{b2, b3, b4}, but the latest version of it is not open-source and the open-source version is no longer maintained.
+Also, "Adafruit IO" \cite{b5} and "Freeboard IO" \cite{b6} are other commonly used IoT platforms, but they are not open-source.
 Moreover, while tracking water and food consumption and automatic feeding are commonly supported by previous implementations, few solutions support device status information and error notification.
 
 % `Project novelty`
 The proposed IoT solution named "Petification" uses open-source projects for the IoT platform.
-Node-RED which is a flow-based open-source visual programming tool \cite{b8} is used to implement the APIs of the IoT platform.
+Node-RED which is a flow-based open-source visual programming tool \cite{b7} is used to implement the APIs of the IoT platform.
 By using Node-RED, Petification can get the benefit of providing user-friendly UI, fast development, and a lot of resources shared by users.
 Also, Eclipse Mosquitto which is one of the open-source implementations of the MQTT messaging protocol is used to manage overall message flow.
-Using MQTT protocol as a message broker allows the IoT platform to connect the user with devices in a lightweight way \cite{b9}.
+Using MQTT protocol as a message broker allows the IoT platform to connect the user with devices in a lightweight way \cite{b8}.
 
 % `Functionality`
 Petification provides information about device connectivity and the amount of remaining food/water for each device as well as food/water consumption.
@@ -118,27 +118,27 @@ The food/water empty notification is also provided to the user via email and Wha
 
 \section{Related Literature}
 % Reference 1
-P. N. Vrishanka \textit{et al.} \cite{b10} proposed an automated pet feeder which serves food to the pet according to the remaining amount of food in the food bowl.
+P. N. Vrishanka \textit{et al.} \cite{b9} proposed an automated pet feeder which serves food to the pet according to the remaining amount of food in the food bowl.
 An ultrasonic distance sensor and SG90 servo motor were mounted to Arduino Uno R3 in this research.
 An ultrasonic distance sensor is used to determine the remaining food amount by measuring the distance from the entrance of the feed container to the inside of the bowl.
 
 % Reference 2
-Rogerio Nogueira \textit{et al.} \cite{b11} proposed a system that can serve food and water according to pre-scheduled times and amounts.
+Rogerio Nogueira \textit{et al.} \cite{b10} proposed a system that can serve food and water according to pre-scheduled times and amounts.
 Additionally, the system provides a notification service for abnormal situations with photos and alerts and a "chat-based" intelligent interface to the user.
 This research is conducted with Raspberry Pi, Python, Telegram cloud service, and IBM Watson Assistant.
 
 % Reference 3
-Vania \textit{et al.} \cite{b12} proposed an IoT solution that identifies each pet via RFID and serves food by schedule.
+Vania \textit{et al.} \cite{b11} proposed an IoT solution that identifies each pet via RFID and serves food by schedule.
 The dog feeder in the research was developed using Arduino Uno and ESP8266 Wi-Fi Module with load cell and DC motor.
 An Android mobile application is provided to the user and the IoT platform which is developed with Node JS and MySQL database controls device-user communication using the MQTT protocol.
 
 % Reference 4
-Y. Chen \textit{et al.} \cite{b5} proposed a pet care IoT solution that provides information such as food and water consumption, the number of defecation, and defecation duration.
+Y. Chen \textit{et al.} \cite{b4} proposed a pet care IoT solution that provides information such as food and water consumption, the number of defecation, and defecation duration.
 It was implemented using Arduino Uno and ESP8266 Wi-Fi Module with load cell, servo motor, and motion sensor.
 A mobile application is provided as a UI with the help of the “Blynk” IoT platform.
 
 % Reference 5
-T. Sangvanloy \textit{et al.} \cite{b4} proposed a pet care IoT solution that visualizes the daily food consumption in real-time and automatically feeds the pet according to the scheduled time.
+T. Sangvanloy \textit{et al.} \cite{b3} proposed a pet care IoT solution that visualizes the daily food consumption in real-time and automatically feeds the pet according to the scheduled time.
 The conducted research also provides an automatic serving amount adjustment feature based on the pet's species and weight.
 The IoT solution was implemented with ESP32 Wi-Fi micro-controller, servo motor, load cell, and “Blynk” IoT platform.
 
@@ -246,17 +246,17 @@ The detailed device-to-user flow is shown in figure 7 and the pseudo-code for ca
 Three open-source projects are used in the platform: Node-RED, Eclipse Mosquito, and MySQL.
 
 \subsubsection{Node-RED}
-Node-RED is a flow-based open-source visual development tool that is easy for developers and non-developers to develop programs \cite{b17}.
+Node-RED is a flow-based open-source visual development tool that is easy for developers and non-developers to develop programs \cite{b12}.
 One of the strengths of the Node-RED is its powerful community.
 Not only Node-RED itself but also various nodes such as dashboard widgets and database drivers are being distributed through Node Package Manager (NPM).
 Another strength is that it can run on various environments such as local, Raspberry Pi, Docker, and Cloud Instance.
 Thus, Node-RED v2.2.1 is installed in not only the platform server but also Raspberry Pi of water supplier and feed machine.
 
 \subsubsection{Eclipse Mosquitto MQTT message broker}
-MQTT (Message Queuing Telemetry Transport) is an OASIS standard protocol and provides lightweight, publish/subscribe messaging transport for IoT \cite{b9}.
+MQTT (Message Queuing Telemetry Transport) is an OASIS standard protocol and provides lightweight, publish/subscribe messaging transport for IoT \cite{b8}.
 The publish/subscribe model of the MQTT protocol allows the IoT platform to support bi-directional communication in a way that one can subscribe to the "topic" of the message to receive a message published to that "topic" by another.
 In this research, Eclipse Mosquitto v1.4.15 is used as an MQTT Message Broker.
-Eclipse Mosquitto is an open-source message broker implementing MQTT protocol versions 5.0, 3.1.1, and 3.1 \cite{b20}.
+Eclipse Mosquitto is an open-source message broker implementing MQTT protocol versions 5.0, 3.1.1, and 3.1 \cite{b13}.
 
 \subsubsection{MySQL}
 MySQL is a fast, flexible, and easy-to-use open-source database with RDBMS (relational database management system).
@@ -394,47 +394,29 @@ M.  Hanson.  “Pet  Industry  Statistics”  spots.com.  https://spots.com/pet-
 \bibitem{b2}
 Accessed: Feb. 1, 2022. [Online]. Available: https://www.instructables.com/IOT-Pet-Feeder-Using-the-Blynk-Mobile-App-an-ESP82/
 \bibitem{b3}
-Accessed: Feb. 1, 2022. [Online]. Available: https://www.instructables.com/IoT-Pet-Feeder/
-\bibitem{b4}
 T. Sangvanloy and K. Sookhanaphibarn, "Automatic Pet Food Dispenser by using Internet of Things (IoT)," 2020 IEEE 2nd Global Conference on Life Sciences and Technologies (LifeTech), Kyoto, Japan, Mar. 10-12, 2020.
-\bibitem{b5}
+\bibitem{b4}
 Y. Chen and M. Elshakankiri, "Implementation of an IoT based Pet Care System," 2020 Fifth International Conference on Fog and Mobile Edge Computing (FMEC), Paris, France, Apr. 20-23, 2020.
-\bibitem{b6}
+\bibitem{b5}
 Accessed: Feb. 4, 2022. [Online]. Available: https://iotdesignpro.com/projects/google-assistant-controlled-iot-pet-feeder-using-esp8266
-\bibitem{b7}
+\bibitem{b6}
 Accessed: Feb. 5, 2022. [Online]. Available: https://create.arduino.cc/projecthub/circuito-io-team/iot-pet-feeder-10a4f3
-\bibitem{b8}
+\bibitem{b7}
 Node-RED [Online]. Available: https://nodered.org/about/
-\bibitem{b9}
+\bibitem{b8}
 MQTT [Online]. Available: https://mqtt.org
-\bibitem{b10} %10
+\bibitem{b9}
 P. N. Vrishanka, P. Prabhakar, D. Shet and K. Rupali, "Automated Pet Feeder using IoT," 2021 IEEE International Conference on Mobile Networks and Wireless Communications (ICMNWC), Tumkur, Karnataka, India, Dec. 3-4, 2021.
-\bibitem{b11} %11
+\bibitem{b10}
 R. Nogueira, H. Araújo and D. Prata. (Apr. 2019). Robot Chow: Automatic Animal Feeding with Intelligent Interface to Monitor Pets. International Journal of Advanced Engineering Research and Science. [Online]. Available: https://ijaers.com/detail/robot-chow-automatic-animal-feeding-with-intelligent-interface-to-monitor-pets/
-\bibitem{b12} %12
+\bibitem{b11}
 Vania, K. Karyono and I. H. T. Nugroho, "Smart dog feeder design using wireless communication, MQTT and Android client," 2016 International Conference on Computer, Control, Informatics and its Applications (IC3INA), Tangerang, Indonesia, Oct. 3-5, 2016.
-\bibitem{b13} %13
-Thepihut. https://thepihut.com/blogs/raspberry-pi-roundup/whats-the-difference-between-dc-servo-amp-stepper-motors (accessed Feb. 04, 2022).
-\bibitem{b14} %14
-Accessed: Feb. 15, 2022. [Online]. Available: https://instrumentationtools.com/load-cell-working-principle/
-\bibitem{b15} %15
-Accessed: Feb. 19, 2022. [Online]. Available: https://www.seeedstudio.com/blog/2019/11/26/10-things-you-can-do-with-your-hx711-and-load-cell/
-\bibitem{b16} %16
-Accessed: Feb. 6, 2022. [Online]. Available: https://www.fujielectric.com/products/column/servo/servo\_01.html
-\bibitem{b17} %17
+\bibitem{b12}
 N. B. Kamarozaman and A. H. Awang, "IOT COVID-19 Portable Health Monitoring System using Raspberry Pi, Node-Red and ThingSpeak," 2021 IEEE Symposium on Wireless Technology \& Applications (ISWTA), Shah Alam, Malaysia, Aug. 17-17, 2021.
-\bibitem{b18} %18
-N. Naik, "Choice of effective messaging protocols for IoT systems: MQTT, CoAP, AMQP and HTTP," 2017 IEEE International Systems Engineering Symposium (ISSE), Vienna, Austria, Oct. 11-13, 2017.
-\bibitem{b19} %19
-OASIS Open [Online]. Available: https://www.oasis-open.org/committees/tc\_home.php?wg\_abbrev=mqtt
-\bibitem{b20} %20
+\bibitem{b13}
 Eclipse Mosquitto [Online]. Available: https://mosquitto.org/
-\bibitem{b21} %21
-Datamation. [Online]. Available: https://www.datamation.com/storage/8-major-advantages-of-using-mysql/
-\bibitem{b22} %22
+\bibitem{b14}
 A. Tamboli, “Build Your Own IoT Platform,” in \textit{Apress}, 1st ed, 2019
-\bibitem{b23} %23
-Node-RED [Online]. Available https://flows.nodered.org/node/node-red-dashboard
 
 \end{thebibliography}
 \vspace{12pt}
