@@ -145,7 +145,7 @@ Thus, all the messages published from devices are sent to the AP with Wi-Fi, and
 Petification platform processes the messages and sends the processed data to the users in form of a web dashboard page, E-Mail, and WhatsApp messages.
 On the contrary, users can send requests with the web dashboard to the platform.
 While some requests require only the platform, the requests to activate the actuator are forwarded to the device with the help of the platform.
-The overview for Petification is shown in figure 2.
+The overview for Petification is shown in figure 1.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/Overview.png}}
@@ -266,7 +266,7 @@ However, even if the calibration has proceeded, there is always the possibility 
 Thus the "smooth" node of the "node-red-node-smooth" library has been used to get a maximum value of two measurement results.
 After the weight is measured, the "switch" node determines what type of message (weight data or error) has to be sent by checking if the weight is below the threshold value which is 10g for this implementation.
 The messages are sent after the "function" node prepares the message and the "mqtt out" node publishes the message.
-The Node-RED flow for publishing weight or error messages is shown in figure 11 and the implemented water supplier is shown in figure 12.
+The Node-RED flow for publishing weight or error messages is shown in figure 8 and the implemented water supplier is shown in figure 9.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/Water Supplier Error Detection.png}}
@@ -286,7 +286,7 @@ Food serving flow does not begin before a message which contains desired serving
 The "join-wait" node of the "node-red-contrib-join-wait" node module waits for a food serving message and returns an object which contains a current weight for that time and desired weight after the serving message has arrived.
 Then, the current weight is measured and compared repeatedly by a "loop" node of the "node-red-contrib-loop-processing" and a "change" node.
 The food gate is opened for the first loop and is closed when the current weight is above the desired weight or the loop is repeated 500 times by the "pi-gpiod out" node of the "node-red-node-pi-gpiod" node module.
-The Node-RED flow for serving food is shown in figure 13 and the implemented feed machine is shown in figure 14.
+The Node-RED flow for serving food is shown in figure 10 and the implemented feed machine is shown in figure 11.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/automaticFeeding.png}}
@@ -304,7 +304,7 @@ The Node-RED flow for serving food is shown in figure 13 and the implemented fee
 The platform for Petification uses cloud instances for deployment.
 On the cloud instance, Mosquitto, MySQL, and Node-RED are installed and the firewall, DNS, and certificate for TLS/SSL communication are configured for networking.
 In the Node-RED, 7 IoT platform components are implemented as 7 flows.
-A screenshot for implemented Node-RED flows is shown in Figure 13.
+A screenshot for implemented Node-RED flows is shown in Figure 12.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/node-red-platform-screenshot.png}}
@@ -364,7 +364,7 @@ A total of 10 tests were performed and the desired serving amount is compared wi
 \label{fig}
 \end{figure}
 
-As a result of the test shown in figure 15, it was confirmed that 40\% of the highest error was found, and 1.5\% of the lowest error was found.
+As a result of the test shown in figure 14, it was confirmed that 40\% of the highest error was found, and 1.5\% of the lowest error was found.
 The reason for the error is that the food is often stuck in front of the food gate and the food serving speed is too fast for the load cell to detect.
 It is a limitation for the feed machine and can be solved if the design is modified correctly.
 
