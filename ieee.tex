@@ -302,7 +302,7 @@ The Node-RED flow for serving food is shown in figure 10 and the implemented fee
 
 \subsection{IoT Platform}
 The platform for Petification uses cloud instances for deployment.
-On the cloud instance, Eclipse Mosquitto, MySQL, and Node-RED are installed and the firewall, DNS, and certificate for TLS/SSL communication are configured for networking.
+On the cloud instance, Mosquitto, MySQL, and Node-RED are installed and the firewall, DNS, and certificate for TLS/SSL communication are configured for networking.
 In the Node-RED, 7 IoT platform components are implemented as 7 flows.
 A screenshot for implemented Node-RED flows is shown in Figure 12.
 
@@ -319,18 +319,18 @@ The "mqtt in" node is used to subscribe and receive the MQTT message and the "fu
 
 \subsubsection{Rule Engine}
 The purpose of Rule Engine is to activate actions according to MQTT messages.
-Designing logic of the Rule Engine is inspired by the book, “Build Your Own IoT Platform” \cite{b14}.
+Logics of the Rule Engine was inspired by “Build Your Own IoT Platform” \cite{b22}.
 For every published message, Rule Engine searches for all rules where the rule’s message pattern satisfies the message content.
 Actions that corresponded to the rules are defined as ReST API form, thus activating action will be progressed as sending an HTTP request.
 
 \subsubsection{Device Manager}
-Handling devices that are attached to the platform is the main purpose of the Device Manager flow.
-It provides ReST APIs that can add a new device to the platform, modify the status of the device, and delete a device.
-And it also provides functionality for publishing an action-type message to a specific device.
+The main purpose of the Device Manager flow is to handle devices that are attached to the platform.
+It provides ReST APIs that can add new devices to the platform, modify the status of devices, and delete devices.
+It also provides functionality for publishing food serving messages to specific devices.
 
 \subsubsection{Dashboard}
-Dashboard Manager is to provide a Graphical User Interface (GUI) to the user.
-By using this flow, users can be provided the status of water and food remaining and consumption visually.
+Dashboard Manager provides Graphical User Interface (GUI) to the user.
+This flow provides visual status of remaining resources and consumption to the user.
 It also provides buttons to serve food and input areas to set user settings. A screenshot of the implemented dashboard is shown in figure 13.
 
 \begin{figure}[htbp]
@@ -345,9 +345,9 @@ Users can manage these 4 settings: Notification enable/disable, Email address, W
 Also, a ReST API for sending email and WhatsApp notifications is included in this flow using the "email" node of the "node-red-node-email" node module and the "whatsapp-bot" node of the "node-red-contrib-whatsappbot" node module.
 
 \subsubsection{Schedule Engine}
-Handling and executing schedules are the main functionalities of this flow.
+Handling and executing schedules is the main functionality of this flow.
 Every minute, the schedule engine checks the schedule table of the database and executes the actions that are scheduled to be activated at that time.
-Similar to the rule engine, each action corresponding to the schedule is defined in the ReST API format, and an HTTP request is sent when the action is executed.
+Similarly, with the rule engine, each corresponded action is defined as a ReST API form, thus an HTTP request is sent when the schedule is executed.
 
 \subsubsection{Time-series Manager}
 Managing the time-series data table of the database is the main purpose of the Time-series Manager flow.
