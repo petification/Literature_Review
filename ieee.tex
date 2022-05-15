@@ -196,7 +196,7 @@ The load cells with an attached amplifier and a MG90S servo motor are attached t
 \end{figure}
 
 \subsection{IoT Platform}
-The user-to-device communication occurred when the user wants to serve the food to the pet, and device-to-user communication occurred to provide information and notification to the user.
+User-to-device communication occurs when the user wishes to serve food to the pet, and device-to user communication occurs when information and notification to the user is provided.
 To serve the food, the user can either set the serving schedule or press the button in the dashboard.
 The serving schedules are stored in the database and checked every minute to send the message to the feed machine when the scheduled time arrives.
 The food serving message is also sent when the user presses the button.
@@ -209,11 +209,11 @@ The detailed flow for the food serving is shown in figure 6.
 \label{fig}
 \end{figure}
 
-To provide information and notification to the user, both the water supplier and feed machine scale what they stores.
-When the measured weight is above a certain threshold, they send a message containing the measured weight to the platform.
+In order to provide information and notification to the user, the weight of the food and water is measured by the devices.
+When the measured weight is above a threshold, which is 10g, a message containing the measured weight is sent to the platform.
 This data message is used to update and show the remaining amount, consumption, and device status to the user.
-However, when the measured weight is below the threshold, then an error message is sent to the platform to update the device status and to notify the user that the food/water is empty.
-The detailed device-to-user flow is shown in figure 7 and the pseudo-code for calculating the consumption is shown in algorithm 1.
+However, when the measured weight is below the threshold, an error message is sent to the platform to update the device status and to notify the user that the food/water is empty.
+Figure 7 shows detailed device-to-user flow, and algorithm 1 shows the pseudo-code for calculating comsumption.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/device2user.png}}
@@ -241,10 +241,9 @@ Three open-source projects are used in the platform: Node-RED, Eclipse Mosquito,
 
 \subsubsection{Node-RED}
 Node-RED is a flow-based open-source visual development tool that is easy for developers and non-developers to develop programs \cite{b12}.
-One of the strengths of the Node-RED is its powerful community.
-Not only Node-RED itself but also various nodes such as dashboard widgets and database drivers are being distributed through Node Package Manager (NPM).
+One of the strengths of the Node-RED is its powerful community; Various nodes such as dashboard widgets and database drivers are being distributed through Node Package Manager (NPM).
 Another strength is that it can run on various environments such as local, Raspberry Pi, Docker, and Cloud Instance.
-Thus, Node-RED v2.2.1 is installed in not only the platform server but also Raspberry Pi of water supplier and feed machine.
+Thus, Node-RED v2.2.1 is installed in not only the platform server but also Raspberry Pi in both water supplier and feed machine.
 
 \subsubsection{Eclipse Mosquitto MQTT message broker}
 MQTT (Message Queuing Telemetry Transport) is an OASIS standard protocol and provides lightweight, publish/subscribe messaging transport for IoT \cite{b8}.
