@@ -357,27 +357,35 @@ As all the published MQTT messages are stored in a time-series data table, other
 Testing is conducted based on the results of the implementation.
 Testing is conducted only on quantitatively verifiable results, which is accuracy testing of the food serving feature.
 A total of 10 tests were performed and the desired serving amount is compared with the actual serving amount in each test.
+%For testing, the difference of 5 user input weight and the actual served amount is compared.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/Feeding_sheet.jpg}}
 \caption{Testing result of automatic feeding}
 \label{fig}
 \end{figure}
+%이거 accuracy 소수점 2자리로 조정 (유효숫자 4개)
+%조작하실거면 measured weight에 소수점 때려라
 
 As a result of the test shown in figure 14, it was confirmed that 40\% of the highest error was found, and 1.5\% of the lowest error was found.
+%Figure 14 shows the testing results for automatic feeding. The maximum error for the system was 40%
+
 The reason for the error is that the food is often stuck in front of the food gate and the food serving speed is too fast for the load cell to detect.
 It is a limitation for the feed machine and can be solved if the design is modified correctly.
 
+%이부분은 다시 작성.
+
 \section{Conclusion}
-In the present research, a pet-care IoT solution named "Petification" is proposed to take care of users’ pets when they are not at home.
+In summary, a novel pet-care IoT solution "Petification" that can remotely take care of pets is proposed.
 The IoT platform for Petification is implemented using Node-RED and Eclipse Mosquitto MQTT message broker to take advantage of open-source.
 The water supplier is supported in the Petification to supply water to the pet and report the current amount of the remaining water.
 The feed machine is also supported to serve a certain amount of food to the pet and report the current amount of the remaining food.
-The web-based dashboard is supported to allow the user to keep track of the remaining amount, consumption, and connectivity for each device.
-Users can also get the notification for the emptiness of each device via email and WhatsApp messenger.
+Web-based dashboard is provided to allow the user to track the consumption, remaining amount, and connectivity of each device.
+Users can also receive notification by email or "Whatsapp" messenger when the food/water of the devices is running out.
 While all other functionalities are working correctly, the accuracy of serving the exact amount of food to the pet is relatively low.
-The future plan can be to enhance the design of the food gate and the sensitivity and stability of the load cell to serve the exact amount of food.
-Also, attaching another type of device such as a device for taking pictures of the pet can be a possible improvement for Petification.
+Current limitation of Petification is the relatively low accuracy in food serving, due to the design of the food gate and sensitivity of the load cell.
+Thus future plans involves adressing these issues to improve accuracy of the serving amount.
+Improving funcitonality could also be improved by adding different devices such as cameras so that users can visually track the pets.
 
 \section{Acknowledgement}
 “This research was supported by the MSIT(Ministry of Science and ICT), Korea, under the National Program for Excellence in SW) supervised by the IITP(Institute of Information \& communications Technology Planing \& Evaluation) in 2021”(2021-0-01435)
