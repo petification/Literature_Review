@@ -281,10 +281,10 @@ The Node-RED flow for publishing weight or error messages is shown in figure 8 a
 \end{figure}
 
 \subsection{Feed machine}
-In addition to the weight measuring flow which is the same as that of the water supplier, the flow for serving a certain amount of the food to the pet is implemented in the feed machine.
-Food serving flow does not begin before a message which contains desired serving amount at the message payload arrives.
-The "join-wait" node of the "node-red-contrib-join-wait" node module waits for a food serving message and returns an object which contains a current weight for that time and desired weight after the serving message has arrived.
-Then, the current weight is measured and compared repeatedly by a "loop" node of the "node-red-contrib-loop-processing" and a "change" node.
+The flow for serving a certain amount of food is implemented in addition to the weight measuring flow, which is similar to the water supplier.
+Food serving flow begins after a message containing desired serving amount as a message payload arrives.
+The "join-wait" node of the "node-red-contrib-join-wait" node module waits for a food serving message and returns an object which contains the current weight for that time and desired weight after the serving message has arrived.
+Then, the current weight is repeatedly measured and compared by the "loop" node from the "node-red-contrib-loop-processing" and "change" node.
 The food gate is opened for the first loop and is closed when the current weight is above the desired weight or the loop is repeated 500 times by the "pi-gpiod out" node of the "node-red-node-pi-gpiod" node module.
 The Node-RED flow for serving food is shown in figure 10 and the implemented feed machine is shown in figure 11.
 
