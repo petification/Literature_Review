@@ -123,7 +123,7 @@ The IoT solution was implemented with ESP32 Wi-Fi micro-controller, servo motor,
 
 Y. Chen \textit{et al.} \cite{b4} proposed a pet care IoT solution that provides information such as food and water consumption, the number of defecation, and defecation duration.
 It was implemented using Arduino Uno and ESP8266 Wi-Fi Module with load cell, servo motor, and motion sensor.
-A mobile application is provided as a UI with the help of the “Blynk” IoT platform.
+A mobile application is provided to the user with the help of the “Blynk” IoT platform.
 
 P. N. Vrishanka \textit{et al.} \cite{b9} proposed an automated pet feeder which serves food to the pet according to the remaining amount of food in the food bowl.
 An ultrasonic distance sensor and SG90 servo motor were mounted to Arduino Uno R3 in this research.
@@ -144,7 +144,7 @@ The feed machine and water supplier are connected to the Access Point (AP) throu
 Thus, all the messages published from devices are sent to the AP with Wi-Fi, and then they are sent to the Petification platform through the internet.
 Petification platform processes the messages and sends the processed data to the users in form of a web dashboard page, E-Mail, and WhatsApp messages.
 On the contrary, users can send requests with the web dashboard to the platform.
-While some requests require only the platform, the requests to activate the actuator are forwarded to the device with the help of the platform.
+While some requests require only the platform, the requests to activate the actuator are sent to the device with the help of the platform.
 The overview for Petification is shown in figure 1.
 
 \begin{figure}[htbp]
@@ -157,7 +157,7 @@ The overview for Petification is shown in figure 1.
 Measuring the weight of the water is done with one load cell which scales up to a maximum of 5kg with 1g accuracy.
 A load cell is installed between the two plates to measure the pressure applied to an upper plate as shown in figure 2 and is attached to the Raspberry Pi Zero W through the HX711 amplifier which converts the analog signal to the digital signal as shown in figure 3.
 To convert the measurement of the load cell to the weight data, the calibration process has proceeded to get the reference unit.
-The process of calibration is shown below:
+The formula for calibration is shown below:
 \[
 	referenceUnit = \frac{average(loadCellMeasurements)}{actualWeight}
 \]
@@ -261,9 +261,9 @@ For this reason, MySQL v5.7.37 is integrated as a component of the platform.
 \section{Implementation}
 \subsection{Water supplier}
 Calibrating and measuring the weight of the water is done with python code.
-By using the "exec" node of the Node-RED in Raspberry Pi to execute python code, the result of a measurement can be used in Node-RED.
+By using the "exec" node of the Node-RED to execute python code, the result of a measurement can be used in Node-RED.
 However, even if the calibration has proceeded, there is always the possibility of measurement error.
-Thus the "smooth" node of the "node-red-node-smooth" library has been used to get a maximum value of two measurement results.
+Thus the "smooth" node of the "node-red-node-smooth" node module has been used to get a maximum value of two measurement results.
 After the weight is measured, the "switch" node determines what type of message (weight data or error) has to be sent by checking if the weight is below the threshold value which is 10g for this implementation.
 The messages are sent after the "function" node prepares the message and the "mqtt out" node publishes the message.
 The Node-RED flow for publishing weight or error messages is shown in figure 8 and the implemented water supplier is shown in figure 9.
@@ -302,7 +302,7 @@ The Node-RED flow for serving food is shown in figure 10 and the implemented fee
 
 \subsection{IoT Platform}
 The platform for Petification uses cloud instances for deployment.
-On the cloud instance, Mosquitto, MySQL, and Node-RED are installed and the firewall, DNS, and certificate for TLS/SSL communication are configured for networking.
+On the cloud instance, Eclipse Mosquitto, MySQL, and Node-RED are installed and the firewall, DNS, and certificate for TLS/SSL communication are configured for networking.
 In the Node-RED, 7 IoT platform components are implemented as 7 flows.
 A screenshot for implemented Node-RED flows is shown in Figure 12.
 
@@ -319,7 +319,7 @@ The "mqtt in" node is used to subscribe and receive the MQTT message and the "fu
 
 \subsubsection{Rule Engine}
 The purpose of Rule Engine is to activate actions according to MQTT messages.
-Designing logic of the Rule Engine is inspired by the book, “Build Your Own IoT Platform” \cite{b22}.
+Designing logic of the Rule Engine is inspired by the book, “Build Your Own IoT Platform” \cite{b14}.
 For every published message, Rule Engine searches for all rules where the rule’s message pattern satisfies the message content.
 Actions that corresponded to the rules are defined as ReST API form, thus activating action will be progressed as sending an HTTP request.
 
@@ -345,7 +345,7 @@ Users can manage these 4 settings: Notification enable/disable, Email address, W
 Also, a ReST API for sending email and WhatsApp notifications is included in this flow using the "email" node of the "node-red-node-email" node module and the "whatsapp-bot" node of the "node-red-contrib-whatsappbot" node module.
 
 \subsubsection{Schedule Engine}
-Handling and executing schedules is the main functionality of this flow.
+Handling and executing schedules are the main functionalities of this flow.
 Every minute, the schedule engine checks the schedule table of the database and executes the actions that are scheduled to be activated at that time.
 Similarly, with the rule engine, each corresponded action is defined as a ReST API form, thus an HTTP request is sent when the schedule is executed.
 
