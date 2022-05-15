@@ -354,26 +354,19 @@ Managing the time-series data table of the database is the main purpose of the T
 As all the published MQTT messages are stored in a time-series data table, other flows such as dashboard flow can get and utilize the time-series data.
 
 \section{Experiment and Testing}
-Testing is conducted based on the results of the implementation.
-Testing is conducted only on quantitatively verifiable results, which is accuracy testing of the food serving feature.
-A total of 10 tests were performed and the desired serving amount is compared with the actual serving amount in each test.
-%For testing, the difference of 5 user input weight and the actual served amount is compared.
+Based on the results of the implementation, testing is conducted only on quantitatively verifiable results, which is accuracy testing of the food serving feature.
+For testing, the difference of 5 desired weight and the average of actual served weight is compared.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/Feeding_sheet.jpg}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/serve-accuracy.png}}
 \caption{Testing result of automatic feeding}
 \label{fig}
 \end{figure}
-%이거 accuracy 소수점 2자리로 조정 (유효숫자 4개)
-%조작하실거면 measured weight에 소수점 때려라
 
-As a result of the test shown in figure 14, it was confirmed that 40\% of the highest error was found, and 1.5\% of the lowest error was found.
-%Figure 14 shows the testing results for automatic feeding. The maximum error for the system was 40%
-
+Figure 14 shows the testing results for automatic feeding.
+The maximum error rate for the solution was 33.87\%, and the minimum error rate was 1.28\%.
 The reason for the error is that the food is often stuck in front of the food gate and the food serving speed is too fast for the load cell to detect.
 It is a limitation for the feed machine and can be solved if the design is modified correctly.
-
-%이부분은 다시 작성.
 
 \section{Conclusion}
 In summary, a novel pet-care IoT solution "Petification" that can remotely take care of pets is proposed.
