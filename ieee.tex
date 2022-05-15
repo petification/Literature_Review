@@ -155,15 +155,15 @@ Figure 1 shows the overview of for Petification.
 \end{figure}
 
 \subsection{Water Supplier}
-Measuring the weight of the water is done with one load cell which scales up to a maximum of 5kg with 1g accuracy.
-A load cell is installed between the two plates to measure the pressure applied to an upper plate as shown in figure 2 and is attached to the Raspberry Pi Zero W through the HX711 amplifier which converts the analog signal to the digital signal as shown in figure 3.
+Measuring the weight of the water is done with single load cell which scales up to a maximum of 5kg with 1g accuracy.
+As shown in figure 3, The load cell is installed between the two plates to measure the pressure applied to an upper plate as shown in figure 2 and is attached to the Raspberry Pi Zero W through the HX711 amplifier which converts the analog signal to the digital signal.
 To convert the measurement of the load cell to the weight data, the calibration process has proceeded to get the reference unit.
 The formula for calibration is shown below:
 \[
-	referenceUnit = \frac{average(loadCellMeasurements)}{actualWeight}
+   referenceUnit = \frac{average(loadCellMeasurements)}{actualWeight}
 \]
 
-A 500mL water bottle which is used as an actual weight of 500g is measured 500 times to get a reference unit.
+A 500mL water bottle which is used as an actual weight of 500g is measured 500 times to get a reference unit in the calibration process.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.3\textwidth]{./images/load-cell.png}}
