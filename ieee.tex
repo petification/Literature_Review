@@ -135,7 +135,8 @@ This research is conducted with Raspberry Pi, Python, Telegram cloud service, an
 
 Vania \textit{et al.} \cite{b11} proposed an IoT solution that identifies each pet via RFID and serves food by schedule.
 The dog feeder in the research was developed using Arduino Uno and ESP8266 Wi-Fi Module with load cell and DC motor.
-An Android mobile application is provided to the user and the IoT platform which is developed with Node JS and MySQL database controls device-user communication using the MQTT protocol.
+An Android mobile application is provided to the user and the IoT platform is developed with Node JS and MySQL database.
+Communication between the device and the user is based on MQTT over SSL/TLS protocol.
 
 \section{Methodology}
 The system architecture for Petification is designed to connect the feed machine and water supplier with the users.
@@ -347,7 +348,7 @@ Also, a ReST API for sending email and WhatsApp notifications is included in thi
 \subsubsection{Schedule Engine}
 Handling and executing schedules are the main functionalities of this flow.
 Every minute, the schedule engine checks the schedule table of the database and executes the actions that are scheduled to be activated at that time.
-Similarly, with the rule engine, each corresponded action is defined as a ReST API form, thus an HTTP request is sent when the schedule is executed.
+Similar to the rule engine, each action corresponding to the schedule is defined in the ReST API format, and an HTTP request is sent when the action is executed.
 
 \subsubsection{Time-series Manager}
 Managing the time-series data table of the database is the main purpose of the Time-series Manager flow.
