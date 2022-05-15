@@ -1,4 +1,4 @@
-\documentclass[conference]{IEEEtran}
+﻿\documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
 
 \usepackage{cite}
@@ -71,10 +71,11 @@
 
 \begin{abstract}
 While there are an increasing number of households owning pets, it is challenging for owners who leave home often to take good care of their pets.
-However, most of the previous studies which are conducted to serve food and water remotely use the limited featured IoT platforms and do not provide the remaining amount of the food and water and empty notification service to the user.
-The proposed IoT solution named "Petification" uses the open-source project Node-RED with MQTT messaging protocol to provide information about device connectivity and the remaining amount of food and water as well as consumption via a web-based dashboard.
-Additionally, Petification provides an empty notification service with a remote feeding service.
-The water supplier and feed machine are attached to the platform to provide water and food to the pet and scale the weight of the water and food.
+However, most previous studies of remotely feeding and watering pets use limited featured IoT platforms and do not provide notifications or alerts about how much food and water is left.
+Thus, an IoT solution "Petification" is proposed in the study, using the open source project Node-RED with MQTT messaging protocol.
+Petification provides information on device connectivity, remaining food and water and consumption through a web-based dashboard.
+Additionally, it provides error notification service and remote feeding service.
+The water supplier and feed machine are attached to the platform to feed and water the pet and scale the weight of the remaining.
 The load cell, HX711 amplifier, and Raspberry Pi Zero W are mounted to the water supplier and feed machine and an MG90S servo motor is mounted to the Raspberry Pi of the feed machine.
 However, served amount of the food sometimes mismatches with the desired amount while testing the implementation.
 Thus the future plan can be to enhance the food gate to serve the exact amount of food. \\
@@ -86,66 +87,65 @@ IoT platform, Node-RED, MQTT, Smart pet care service
 
 \section{Introduction}
 % `Project background`
-As the number of households living alone increases and the culture of raising pets spreads compared to the past, the number of households raising pets is increasing.
-This trend is shown in the growth of the pet industry; The profit of the pet industry is more than doubled every year over 10 years, from \$48.4 billion in 2010 to \$109.6 billion in 2020 \cite{b1}.
-Along with this trend, demand for tracking pet wellness is increased accordingly.
-One of the demanded services is tracking a pet’s status when the pet is left alone.
-Because for those who left home often, it is challenging to take good care of their pets.
+As the number of single-person household increases and the raising pet culture spread compared to the past, the number of households raising pets is increasing.
+The growth of the pet industry is a good example showing this trend: Profit of pet industries have doubled every year over 10 years, from \$48.4 billion in 2010 to \$109.6 billion in 2020 \cite{b1}.
+Along with this trend, demand for tracking pet wellness is increased accordingly as it is hard to track the pet's status for people who leave their house frequently.
 
 % `Problem statement`
-As a way to solve this problem, Internet of Things (IoT) technology has emerged.
-A lot of pet care IoT solutions are introduced in the market, and many studies and implementations are suggested.
-However, the IoT platforms which are used to implement pet care IoT solution has limitations.
-For example, a most commonly used IoT platform is "Blynk" \cite{b2, b3, b4}, but the latest version of it is not open-source and the open-source version is no longer maintained.
-Also, "Adafruit IO" \cite{b5} and "Freeboard IO" \cite{b6} are other commonly used IoT platforms, but they are not open-source.
-Moreover, while tracking water and food consumption and automatic feeding are commonly supported by previous implementations, few solutions support device status information and error notification.
+Internet of Things (IoT) has recently received attention for the solution to these challenges.
+However, despite the various pet care IoT solutions proposed in the past, most of the IoT platforms used have limitations of not being open-sourced.
+For instance, the most commonly used IoT platform such as "blynk" \cite{b2, b3, b4} has stopped supporting open-source versions, and other common platforms such as "Adafruit IO" \cite{b5} and "Freeboard IO" \cite{b6} does not support open-source versions. 
+Moreover, while many solutions support tracking food and water consumption or remote feeding, few support features such as device status information and error notification.
 
 % `Project novelty`
-The proposed IoT solution named "Petification" uses open-source projects for the IoT platform.
+The proposed IoT solution "Petification" uses open-source projects for the IoT platform.
 Node-RED which is a flow-based open-source visual programming tool \cite{b7} is used to implement the APIs of the IoT platform.
-By using Node-RED, Petification can get the benefit of providing user-friendly UI, fast development, and a lot of resources shared by users.
-Also, Eclipse Mosquitto which is one of the open-source implementations of the MQTT messaging protocol is used to manage overall message flow.
-Using MQTT protocol as a message broker allows the IoT platform to connect the user with devices in a lightweight way \cite{b8}.
+This allows Petification to be able to develop more faster, provide user-friendly user interface to the user, and make use of rich resource ecosystem generated by users. 
+To manage overall message flows, Eclipse Mosquitto which is one of the open-source implementations of the MQTT messaging protocol is used.
+Using the MQTT protocol as a message broker allows the IoT platform to connect the device to the user in a lightweight way \cite{b8}.
 
 % `Functionality`
-Petification provides information about device connectivity and the amount of remaining food/water for each device as well as food/water consumption.
-Additionally, Petification provides an error notification service when the water or food is running out of empty among with automatic feeding service.
-The water supplier and feed machine are attached to the platform to feed and water the pet and to scale the weight of the food/water.
-While both the water supplier and feed machine use the load cell to scale the weight, a servo motor is attached only to the feed machine so that the user can control the served amount of food.
-All the load cells and a servo motor are mounted to Raspberry Pi for each device.
-The web-based dashboard is supported to provide this information and services visually.
-The food/water empty notification is also provided to the user via email and WhatsApp mobile application.
+Petification provides a wide array of information such as device connectivity, the remaining amount of food and water, and amount of consumption visually with the web-based dashboard.
+It also provides an email and "WhatsApp" messanger based error notification service when the water or food is running out, as well as automatic feeding service.
+It also provides error notification via email and "WhatsApp" messenger when water or food is running out as well as automatic feeding service.
+The water supplier and feed machine are attached to the platform to feed and water the pet and to scale the weight of the remaining amount.
 
 \section{Related Literature}
+% TODO:
+%여기는 단순히 XXX가 proposed AAAA 이런 형식을 반복하는것보다는,
+%The functionality of AAAA has been widely implemented. XXXX and YYYY implemented AAAA by using....
+%BBBB has also received attention by previous work. For instance, XXXX implemented BBBB by using ~~ technique.... 이렇게 흐름을 이어나가는것이 좋지 않을까... 여기는 내가 문헌을 읽지 않았으므로 pass
 T. Sangvanloy \textit{et al.} \cite{b3} proposed a pet care IoT solution that visualizes the daily food consumption in real-time and automatically feeds the pet according to the scheduled time.
 The conducted research also provides an automatic serving amount adjustment feature based on the pet's species and weight.
 The IoT solution was implemented with ESP32 Wi-Fi micro-controller, servo motor, load cell, and “Blynk” IoT platform.
 
 Y. Chen \textit{et al.} \cite{b4} proposed a pet care IoT solution that provides information such as food and water consumption, the number of defecation, and defecation duration.
 It was implemented using Arduino Uno and ESP8266 Wi-Fi Module with load cell, servo motor, and motion sensor.
-A mobile application is provided as a UI with the help of the “Blynk” IoT platform.
+A mobile application is provided to the user with the help of the “Blynk” IoT platform.
 
 P. N. Vrishanka \textit{et al.} \cite{b9} proposed an automated pet feeder which serves food to the pet according to the remaining amount of food in the food bowl.
 An ultrasonic distance sensor and SG90 servo motor were mounted to Arduino Uno R3 in this research.
 An ultrasonic distance sensor is used to determine the remaining food amount by measuring the distance from the entrance of the feed container to the inside of the bowl.
 
-Rogerio Nogueira \textit{et al.} \cite{b10} proposed a system that can serve food and water according to pre-scheduled times and amounts.
+Rogerio Nogueira \textit{et al.} \cite{b10} proposed a system that can serve food or water according to pre-scheduled times and amounts.
 Additionally, the system provides a notification service for abnormal situations with photos and alerts and a "chat-based" intelligent interface to the user.
 This research is conducted with Raspberry Pi, Python, Telegram cloud service, and IBM Watson Assistant.
 
 Vania \textit{et al.} \cite{b11} proposed an IoT solution that identifies each pet via RFID and serves food by schedule.
 The dog feeder in the research was developed using Arduino Uno and ESP8266 Wi-Fi Module with load cell and DC motor.
-An Android mobile application is provided to the user and the IoT platform which is developed with Node JS and MySQL database controls device-user communication using the MQTT protocol.
+An Android mobile application is provided to the user and the IoT platform is developed with Node JS and MySQL database.
+Communication between the device and the user is based on MQTT over SSL/TLS protocol.
 
 \section{Methodology}
-The system architecture for Petification is designed to connect the feed machine and water supplier with the users.
+The system architecture for Petification is designed to connect the feed machine and water supplier with the user.
 Each user and device can communicate bi-directionally through the platform.
 The feed machine and water supplier are connected to the Access Point (AP) through Wi-Fi.
-Thus, all the messages published from devices are sent to the AP with Wi-Fi, and then they are sent to the Petification platform through the internet.
-Petification platform processes the messages and sends the processed data to the users in form of a web dashboard page, E-Mail, and WhatsApp messages.
-On the contrary, users can send requests with the web dashboard to the platform.
-While some requests require only the platform, the requests to activate the actuator are forwarded to the device with the help of the platform.
-The overview for Petification is shown in figure 1.
+Thus, all messages published from the device are first sent to the AP through Wi-Fi, and then to the platform through the internet.
+The platform processes the messages and sends the processed data to the users in form of a web dashboard page, email, and "WhatsApp" messages.
+On the contrary, users can send requests to the platform via the web dashboard.
+While some requests require only the platform, requests to activate the actuator are sent to the device with the help of the platform.
+Figure 1 shows the overview of for Petification.
+
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/Overview.png}}
@@ -154,15 +154,15 @@ The overview for Petification is shown in figure 1.
 \end{figure}
 
 \subsection{Water Supplier}
-Measuring the weight of the water is done with one load cell which scales up to a maximum of 5kg with 1g accuracy.
-A load cell is installed between the two plates to measure the pressure applied to an upper plate as shown in figure 2 and is attached to the Raspberry Pi Zero W through the HX711 amplifier which converts the analog signal to the digital signal as shown in figure 3.
+Measuring the weight of the water is done with single load cell which scales up to a maximum of 5kg with 1g accuracy.
+As shown in figure 3, The load cell is installed between the two plates to measure the pressure applied to an upper plate as shown in figure 2 and is attached to the Raspberry Pi Zero W through the HX711 amplifier which converts the analog signal to the digital signal.
 To convert the measurement of the load cell to the weight data, the calibration process has proceeded to get the reference unit.
-The process of calibration is shown below:
+The formula for calibration is shown below:
 \[
-	referenceUnit = \frac{average(loadCellMeasurements)}{actualWeight}
+   referenceUnit = \frac{average(loadCellMeasurements)}{actualWeight}
 \]
 
-A 500mL water bottle which is used as an actual weight of 500g is measured 500 times to get a reference unit.
+A 500mL water bottle which is used as an actual weight of 500g is measured 500 times to get a reference unit in the calibration process.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.3\textwidth]{./images/load-cell.png}}
@@ -177,12 +177,10 @@ A 500mL water bottle which is used as an actual weight of 500g is measured 500 t
 \end{figure}
 
 \subsection{Feed Machine}
-To serve food to the pet, an MG90S servo motor is mounted to open and close the food gate.
-As in figure 4, the servo motor gives food in an open/close type.
-Food serving is done with the help of gravity; After the food gate is opened, food rolls down the slope, and thus food is served.
-By closing the food gate Feed Machine stops the serving of the food.
-Two load cells and two HX711 amplifiers are installed in the same way as the water supplier under the food bowl and container to measure the weight of the food.
-All the load cells, HX711 amplifiers, and an MG90S servo motor are attached to the Raspberry Pi Zero W as shown in figure 5.
+To measure food weight, two load cells with an HX711 amplifiers are installed under the food bowl and container in the same way as the water supplier.
+To serve the food to the pet, an MG90S servo motor is mounted to the feed machine to control the food gate.
+As shown in figure 4, the food gate has open/close type; The food is served to the pet in a way that the food rolls down the slope when the food gate is opened. % TODO: refine this sentence
+The load cells with an attached amplifier and a MG90S servo motor are attached to a Raspberry Pi Zero W as shown in figure 5.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/servo_gate.png}}
@@ -197,11 +195,10 @@ All the load cells, HX711 amplifiers, and an MG90S servo motor are attached to t
 \end{figure}
 
 \subsection{IoT Platform}
-The user-to-device communication occurred when the user wants to serve the food to the pet, and device-to-user communication occurred to provide information and notification to the user.
-To serve the food, the user can either set the serving schedule or press the button in the dashboard.
-The serving schedules are stored in the database and checked every minute to send the message to the feed machine when the scheduled time arrives.
-The food serving message is also sent when the user presses the button.
-After the feed machine receives the message, it opens the food gate and scales the food bowl repeatedly to serve the desired amount of food to the pet.
+User-to-device communication occurs when the user remotely serve food to the pet, and device-to user communication occurs when information and notification to the user are provided.
+To send food serving message, the user can either set the serving schedule or press the button in the dashboard.
+The serving schedules are stored in the database and checked every minute to serve the food when the scheduled time arrives.
+After the feed machine receives the message, it opens the food gate and repeatedly scales the food bowl to serve the desired amount of food to the pet.
 The detailed flow for the food serving is shown in figure 6.
 
 \begin{figure}[htbp]
@@ -210,11 +207,11 @@ The detailed flow for the food serving is shown in figure 6.
 \label{fig}
 \end{figure}
 
-To provide information and notification to the user, both the water supplier and feed machine scale what they stores.
-When the measured weight is above a certain threshold, they send a message containing the measured weight to the platform.
+In order to provide information and notification to the user, the weight of the food and water is measured by the devices.
+When the measured weight is above a threshold, which is 10g, a message containing the measured weight is sent to the platform.
 This data message is used to update and show the remaining amount, consumption, and device status to the user.
-However, when the measured weight is below the threshold, then an error message is sent to the platform to update the device status and to notify the user that the food/water is empty.
-The detailed device-to-user flow is shown in figure 7 and the pseudo-code for calculating the consumption is shown in algorithm 1.
+However, when the measured weight is below the threshold, an error message is sent to the platform to update the device status and to notify the user that the food or water is empty.
+Figure 7 shows detailed device-to-user flow, and algorithm 1 shows the pseudo-code for calculating comsumption.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/device2user.png}}
@@ -242,16 +239,14 @@ Three open-source projects are used in the platform: Node-RED, Eclipse Mosquito,
 
 \subsubsection{Node-RED}
 Node-RED is a flow-based open-source visual development tool that is easy for developers and non-developers to develop programs \cite{b12}.
-One of the strengths of the Node-RED is its powerful community.
-Not only Node-RED itself but also various nodes such as dashboard widgets and database drivers are being distributed through Node Package Manager (NPM).
+One of the strengths of the Node-RED is its powerful community; Various nodes such as dashboard widgets and database drivers are being distributed through Node Package Manager (NPM).
 Another strength is that it can run on various environments such as local, Raspberry Pi, Docker, and Cloud Instance.
-Thus, Node-RED v2.2.1 is installed in not only the platform server but also Raspberry Pi of water supplier and feed machine.
+Thus, Node-RED v2.2.1 is installed in not only the platform server but also Raspberry Pi in both water supplier and feed machine.
 
 \subsubsection{Eclipse Mosquitto MQTT message broker}
 MQTT (Message Queuing Telemetry Transport) is an OASIS standard protocol and provides lightweight, publish/subscribe messaging transport for IoT \cite{b8}.
 The publish/subscribe model of the MQTT protocol allows the IoT platform to support bi-directional communication in a way that one can subscribe to the "topic" of the message to receive a message published to that "topic" by another.
-In this research, Eclipse Mosquitto v1.4.15 is used as an MQTT Message Broker.
-Eclipse Mosquitto is an open-source message broker implementing MQTT protocol versions 5.0, 3.1.1, and 3.1 \cite{b13}.
+In this research, Eclipse Mosquitto v1.4.15 is used as an MQTT message broker, which is an open-source implementation for MQTT protocol 5.0, 3.1.1, and 3.1 versions \cite{b13}.
 
 \subsubsection{MySQL}
 MySQL is a fast, flexible, and easy-to-use open-source database with RDBMS (relational database management system).
@@ -260,13 +255,15 @@ For this reason, MySQL v5.7.37 is integrated as a component of the platform.
 
 \section{Implementation}
 \subsection{Water supplier}
-Calibrating and measuring the weight of the water is done with python code.
-By using the "exec" node of the Node-RED in Raspberry Pi to execute python code, the result of a measurement can be used in Node-RED.
+Calibrating and measuring the weight of the water is done by python code.
+The result of a measurement can be used in Node-RED by using "exec" node, which can execute the python code.
+
 However, even if the calibration has proceeded, there is always the possibility of measurement error.
-Thus the "smooth" node of the "node-red-node-smooth" library has been used to get a maximum value of two measurement results.
-After the weight is measured, the "switch" node determines what type of message (weight data or error) has to be sent by checking if the weight is below the threshold value which is 10g for this implementation.
+To reduce measurement error after calibration the "smooth" node from the "non-red-node-smooth" node module was used.
+After weight measurement the "switch" node determines what type of message (weight data or error) is sent by checking if the weight is below the threshold value.
 The messages are sent after the "function" node prepares the message and the "mqtt out" node publishes the message.
 The Node-RED flow for publishing weight or error messages is shown in figure 8 and the implemented water supplier is shown in figure 9.
+
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/Water Supplier Error Detection.png}}
@@ -281,11 +278,11 @@ The Node-RED flow for publishing weight or error messages is shown in figure 8 a
 \end{figure}
 
 \subsection{Feed machine}
-In addition to the weight measuring flow which is the same as that of the water supplier, the flow for serving a certain amount of the food to the pet is implemented in the feed machine.
-Food serving flow does not begin before a message which contains desired serving amount at the message payload arrives.
-The "join-wait" node of the "node-red-contrib-join-wait" node module waits for a food serving message and returns an object which contains a current weight for that time and desired weight after the serving message has arrived.
-Then, the current weight is measured and compared repeatedly by a "loop" node of the "node-red-contrib-loop-processing" and a "change" node.
-The food gate is opened for the first loop and is closed when the current weight is above the desired weight or the loop is repeated 500 times by the "pi-gpiod out" node of the "node-red-node-pi-gpiod" node module.
+The flow for serving a certain amount of food is implemented in addition to the weight measuring flow, which is similar to the water supplier.
+Food serving flow begins after a message containing desired serving amount as a message payload arrives.
+The "join-wait" node of the "node-red-contrib-join-wait" node module waits for a food serving message and returns an object after the message has arrived.
+Then, the current weight is repeatedly measured and compared by the "loop" node from the "node-red-contrib-loop-processing" and "change" node.
+The food gate is opened for the first loop and is closed when the current weight is above the desired weight or the loop is repeated 500 times. The "pi-gpiod out" node of the "node-red-node-pi-gpiod" node module is used to open and close it.
 The Node-RED flow for serving food is shown in figure 10 and the implemented feed machine is shown in figure 11.
 
 \begin{figure}[htbp]
@@ -319,18 +316,18 @@ The "mqtt in" node is used to subscribe and receive the MQTT message and the "fu
 
 \subsubsection{Rule Engine}
 The purpose of Rule Engine is to activate actions according to MQTT messages.
-Designing logic of the Rule Engine is inspired by the book, “Build Your Own IoT Platform” \cite{b22}.
-For every published message, Rule Engine searches for all rules where the rule’s message pattern satisfies the message content.
+Logics of the Rule Engine was inspired by “Build Your Own IoT Platform” \cite{b14}.
+For every published message, Rule Engine checks the rule table of the database to find the rules whose message pattern satisfies the message content.
 Actions that corresponded to the rules are defined as ReST API form, thus activating action will be progressed as sending an HTTP request.
 
 \subsubsection{Device Manager}
-Handling devices that are attached to the platform is the main purpose of the Device Manager flow.
-It provides ReST APIs that can add a new device to the platform, modify the status of the device, and delete a device.
-And it also provides functionality for publishing an action-type message to a specific device.
+The main purpose of the Device Manager flow is to handle devices that are attached to the platform.
+It provides ReST APIs that can add new devices to the platform, modify the status of devices, and delete devices.
+It also provides functionality for publishing food serving messages to specific devices.
 
 \subsubsection{Dashboard}
-Dashboard Manager is to provide a Graphical User Interface (GUI) to the user.
-By using this flow, users can be provided the status of water and food remaining and consumption visually.
+Dashboard Manager provides Graphical User Interface (GUI) to the user.
+This flow provides visual status of remaining amount and consumption to the user.
 It also provides buttons to serve food and input areas to set user settings. A screenshot of the implemented dashboard is shown in figure 13.
 
 \begin{figure}[htbp]
@@ -341,43 +338,43 @@ It also provides buttons to serve food and input areas to set user settings. A s
 
 \subsubsection{User Management}
 The purpose of the User Manager flow is to provide a ReST API for modifying user settings.
-Users can manage these 4 settings: Notification enable/disable, Email address, WhatsApp account information, and timezone where the user lives.
-Also, a ReST API for sending email and WhatsApp notifications is included in this flow using the "email" node of the "node-red-node-email" node module and the "whatsapp-bot" node of the "node-red-contrib-whatsappbot" node module.
+Users can manage these 4 settings: Enable/disable the notification, Email address, WhatsApp account information, and timezone where the user lives.
+Also, a ReST API for sending email and "WhatsApp" message is included in this flow using the "email" node of the "node-red-node-email" node module and the "whatsapp-bot" node of the "node-red-contrib-whatsappbot" node module.
 
 \subsubsection{Schedule Engine}
 Handling and executing schedules is the main functionality of this flow.
 Every minute, the schedule engine checks the schedule table of the database and executes the actions that are scheduled to be activated at that time.
-Similarly, with the rule engine, each corresponded action is defined as a ReST API form, thus an HTTP request is sent when the schedule is executed.
+Similar to the rule engine, each corresponded action is defined as a ReST API form, thus an HTTP request is sent when the action is executed.
 
 \subsubsection{Time-series Manager}
-Managing the time-series data table of the database is the main purpose of the Time-series Manager flow.
-As all the published MQTT messages are stored in a time-series data table, other flows such as dashboard flow can get and utilize the time-series data.
+All the published MQTT messages are stored in a time-series data table, and managing the stored messages is the main purpose of the Time-series Manager flow.
+Time-series Manager flow provides APIs for other flows, such as dashboard flows, to get and utilize time series data.
 
 \section{Experiment and Testing}
-Testing is conducted based on the results of the implementation.
-Testing is conducted only on quantitatively verifiable results, which is accuracy testing of the food serving feature.
-A total of 10 tests were performed and the desired serving amount is compared with the actual serving amount in each test.
+Based on the results of the implementation, testing is conducted only on quantitatively verifiable results, which is accuracy testing of the food serving feature.
+For testing, the difference of 5 desired weight and the average of actual served weight is compared.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{./images/Feeding_sheet.jpg}}
+\centerline{\includegraphics[width=0.5\textwidth]{./images/serve-accuracy.png}}
 \caption{Testing result of automatic feeding}
 \label{fig}
 \end{figure}
 
-As a result of the test shown in figure 14, it was confirmed that 40\% of the highest error was found, and 1.5\% of the lowest error was found.
+Figure 14 shows the testing results for automatic feeding.
+The maximum error rate for the solution was 33.87\%, and the minimum error rate was 1.28\%.
 The reason for the error is that the food is often stuck in front of the food gate and the food serving speed is too fast for the load cell to detect.
 It is a limitation for the feed machine and can be solved if the design is modified correctly.
 
 \section{Conclusion}
-In the present research, a pet-care IoT solution named "Petification" is proposed to take care of users’ pets when they are not at home.
+In summary, a pet-care IoT solution "Petification" that can remotely take care of pets is proposed.
 The IoT platform for Petification is implemented using Node-RED and Eclipse Mosquitto MQTT message broker to take advantage of open-source.
 The water supplier is supported in the Petification to supply water to the pet and report the current amount of the remaining water.
 The feed machine is also supported to serve a certain amount of food to the pet and report the current amount of the remaining food.
-The web-based dashboard is supported to allow the user to keep track of the remaining amount, consumption, and connectivity for each device.
-Users can also get the notification for the emptiness of each device via email and WhatsApp messenger.
-While all other functionalities are working correctly, the accuracy of serving the exact amount of food to the pet is relatively low.
-The future plan can be to enhance the design of the food gate and the sensitivity and stability of the load cell to serve the exact amount of food.
-Also, attaching another type of device such as a device for taking pictures of the pet can be a possible improvement for Petification.
+Web-based dashboard is provided to allow the user to track the consumption, remaining amount, and connectivity of each device.
+Users can also receive notification by email or "WhatsApp" messenger when the food or water of the devices is running out.
+Current limitation of Petification is the relatively low accuracy in food serving, due to the design of the food gate and sensitivity of the load cell.
+Thus future plans involves adressing these issues to improve accuracy of the serving amount.
+Improving funcitonality could also be improved by adding different devices such as cameras so that users can visually track the pets.
 
 \section{Acknowledgement}
 “This research was supported by the MSIT(Ministry of Science and ICT), Korea, under the National Program for Excellence in SW) supervised by the IITP(Institute of Information \& communications Technology Planing \& Evaluation) in 2021”(2021-0-01435)
