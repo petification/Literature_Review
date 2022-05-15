@@ -138,14 +138,15 @@ An Android mobile application is provided to the user and the IoT platform is de
 Communication between the device and the user is based on MQTT over SSL/TLS protocol.
 
 \section{Methodology}
-The system architecture for Petification is designed to connect the feed machine and water supplier with the users.
+The system architecture for Petification is designed to connect the feed machine and water supplier with the user.
 Each user and device can communicate bi-directionally through the platform.
 The feed machine and water supplier are connected to the Access Point (AP) through Wi-Fi.
-Thus, all the messages published from devices are sent to the AP with Wi-Fi, and then they are sent to the Petification platform through the internet.
-Petification platform processes the messages and sends the processed data to the users in form of a web dashboard page, E-Mail, and WhatsApp messages.
-On the contrary, users can send requests with the web dashboard to the platform.
-While some requests require only the platform, the requests to activate the actuator are sent to the device with the help of the platform.
-The overview for Petification is shown in figure 1.
+Thus, all messages published from the device are first sent to the AP through Wi-Fi, and then to the Petification platform through the internet.
+The platform processes the messages and sends the processed data to the users in form of a web dashboard page, E-Mail, and WhatsApp messages.
+On the contrary, users can send requests to the platform via the web dashboard.
+while some requests require only the platform, requests to activate the actuator are sent to the device with the help of the platform.
+Figure 1 shows the overview of for Petification.
+
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/Overview.png}}
