@@ -258,13 +258,15 @@ For this reason, MySQL v5.7.37 is integrated as a component of the platform.
 
 \section{Implementation}
 \subsection{Water supplier}
-Calibrating and measuring the weight of the water is done with python code.
-By using the "exec" node of the Node-RED to execute python code, the result of a measurement can be used in Node-RED.
+Calibrating and measuring the weight of the water is done by python code.
+The result of a measurement can be used in Node-RED by using "exec" node, which can execute the python code.
+
 However, even if the calibration has proceeded, there is always the possibility of measurement error.
-Thus the "smooth" node of the "node-red-node-smooth" node module has been used to get a maximum value of two measurement results.
-After the weight is measured, the "switch" node determines what type of message (weight data or error) has to be sent by checking if the weight is below the threshold value which is 10g for this implementation.
+To reduce measurement error after calibration the "smooth" node from the "non-red-node-smooth" node module was used.
+After weight measurement the "switch" node determines what type of message (weight data or error) is sent by checking if the weight is below the threshold value.
 The messages are sent after the "function" node prepares the message and the "mqtt out" node publishes the message.
 The Node-RED flow for publishing weight or error messages is shown in figure 8 and the implemented water supplier is shown in figure 9.
+
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/Water Supplier Error Detection.png}}
