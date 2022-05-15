@@ -178,12 +178,10 @@ A 500mL water bottle which is used as an actual weight of 500g is measured 500 t
 \end{figure}
 
 \subsection{Feed Machine}
-To serve food to the pet, an MG90S servo motor is mounted to open and close the food gate.
-As in figure 4, the servo motor gives food in an open/close type.
-Food serving is done with the help of gravity; After the food gate is opened, food rolls down the slope, and thus food is served.
-By closing the food gate Feed Machine stops the serving of the food.
-Two load cells and two HX711 amplifiers are installed in the same way as the water supplier under the food bowl and container to measure the weight of the food.
-All the load cells, HX711 amplifiers, and an MG90S servo motor are attached to the Raspberry Pi Zero W as shown in figure 5.
+To measure food weight, two load cells with an HX711 amplifiers are installed under the food bowl and container in the same way as the water supplier.
+To serve the food to the pet, an MG90S servo motor is mounted to the feed machine to control the food gate.
+As shown in figure 4, the food gate has open/close type; The food is served to the pet in a way that the food rolls down the slope when the food gate is opened. % TODO: refine this sentence
+The load cells with an attached amplifier and a MG90S servo motor are attached to a Raspberry Pi Zero W as shown in figure 5.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[width=0.5\textwidth]{./images/servo_gate.png}}
